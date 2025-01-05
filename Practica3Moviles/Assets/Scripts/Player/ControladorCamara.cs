@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControladorCámara : MonoBehaviour
+public class ControladorCamara : MonoBehaviour
 {
     public Transform bola; // Referencia al transform de la bola
     public Vector3 offset; // Distancia fija entre la cámara y la bola
