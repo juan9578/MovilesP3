@@ -136,6 +136,7 @@ public class MenuInicial : MonoBehaviour
     // Método para abandonar el lobby
     public void AbandonarSala()
     {
+        LobbyController.instancia.LeaveLobby();
         panelLobby.SetActive(false);
         panelPartida.SetActive(true);
     }

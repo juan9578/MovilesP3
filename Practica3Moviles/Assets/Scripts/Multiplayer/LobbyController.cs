@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -25,6 +26,15 @@ public class LobbyController : MonoBehaviour
 
     // Variable que indica si se está en el lobby
     public bool inLobby = false;
+
+    // Variables encargadas de hacer una pulsación cada cierto tiempo, para que la sala no se destruya por inactividad
+    float heartBeatLobbyTimer = 0;
+    const int MAX_HEARTBEAT_TIMER = 15;
+
+    // Variables encargadas de actualizar la referencia del lobby cada cierto tiempo
+    float updateLobbyTimer = 0;
+    const int MAX_UPDATE_TIMER = 2;
+
 
     private void Awake()
     {
@@ -55,10 +65,46 @@ public class LobbyController : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        // Si estamos unidos a un lobby, cada cierto tiempo se la mandan pulsaciones
+        if (_hostLobby != null)
+        {
+            HandleLobbyHeartbeat();
+        }
+        // Si se está en un lobby, se debe actualizar cada cierto tiempo
+        if (inLobby)
+        {
+            HandleLobbyUpdate();
+        }
+    }
 
+    // Esta función se utiliza para enviar un mensaje al lobby cada 15 segundos, para evitar que la sala desaparezca por inactividad
+    private async void HandleLobbyHeartbeat()
+    {
+        if (_hostLobby != null)
+        {
+            heartBeatLobbyTimer += Time.deltaTime;
+            // Si se supera el tiempo umbral sin enviar un mensaje, este se manda
+            if (heartBeatLobbyTimer > MAX_HEARTBEAT_TIMER)
+            {
+                heartBeatLobbyTimer = 0;
+                await LobbyService.Instance.SendHeartbeatPingAsync(_hostLobby.Id);
+            }
+        }
+    }
+
+    // Esta función se utiliza para actualizar la referencia del lobby
+    private async void HandleLobbyUpdate()
+    {
+        updateLobbyTimer += Time.deltaTime;
+        if (updateLobbyTimer > MAX_UPDATE_TIMER)
+        {
+            updateLobbyTimer = 0;
+            // Mediante el ID de la sala, se obtiene una referencia actualizada
+            Lobby lobbyActualizado = await Lobbies.Instance.GetLobbyAsync(_joinedLobby.Id);
+            _joinedLobby = lobbyActualizado;
+        }
     }
 
     // Función que devuelve si hay lobbies disponibles para que el jugador pueda unirse
@@ -191,7 +237,13 @@ public class LobbyController : MonoBehaviour
             // Se ha unido correctamente a la sala
             _joinedLobby = quickJoinResult;
             Debug.Log("Successfully joined a public lobby: " + _joinedLobby.LobbyCode);
+            inLobby = true;
+            // Una vez se une al lobby, se obtienen la IP y el puerto del servidor
+            string serverIP = _joinedLobby.Data["serverIP"].Value;
+            string serverPort = _joinedLobby.Data["serverPort"].Value;
 
+            // Se une al servidor
+            MultiplayManager.Instance.JoinToServer(serverIP, serverPort);
             return true; // Indica que el unirse fue exitoso
         }
         catch (Exception ex)
@@ -306,6 +358,42 @@ public class LobbyController : MonoBehaviour
             onComplete(false); // Indicar fallo si ocurre un error
             return false; // Devolver falso si hubo un error
         }
+    }
+
+    // Función para obtener los datos de los jugadores en el lobby y poder mostrarlos
+    public Dictionary<string, List<string>> GetPlayersInLobby()
+    {
+        // Se crea un diccionario de listas de strings, para almacenar los nombres y los personajes escogidos por los jugadores
+        Dictionary<string, List<string>> datosPlayers = new Dictionary<string, List<string>>();
+        // Se crea la lista de personajes y se van añadiendo los personajes de cada uno de los jugadores
+        List<string> personajes = new List<string>();
+        foreach (Player p in _joinedLobby.Players)
+        {
+            personajes.Add(p.Data["Character"].Value);
+        }
+        // Se añade la lista al diccionario
+        datosPlayers.Add("Characters", personajes);
+        // Se crea la lista de nombres y se van añadiendo los nombres de cada uno de los jugadores
+        List<string> nombres = new List<string>();
+        foreach (Player p in _joinedLobby.Players)
+        {
+            nombres.Add(p.Data["Name"].Value);
+        }
+        // Se añade la lista al diccionario
+        datosPlayers.Add("Nombres", nombres);
+
+        return datosPlayers;
+    }
+
+    // Función para abandonar la sala
+    public async void LeaveLobby()
+    {
+        await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+        Debug.Log("Jugador ha abandonado la sala");
+        _joinedLobby = null;
+        _hostLobby = null;
+        inLobby = false;
+        NetworkManager.Singleton.Shutdown();
     }
 
 }

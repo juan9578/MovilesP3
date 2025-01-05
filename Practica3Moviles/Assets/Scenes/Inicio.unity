@@ -3480,6 +3480,7 @@ GameObject:
   - component: {fileID: 951173895}
   - component: {fileID: 951173897}
   - component: {fileID: 951173896}
+  - component: {fileID: 951173898}
   m_Layer: 5
   m_Name: Panel Lobby
   m_TagString: Untagged
@@ -3551,6 +3552,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 951173894}
   m_CullTransparentMesh: 1
+--- !u!114 &951173898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951173894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08161c49f5966e641acb7e181b15a1b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NUM_JUGADORES: 0
+  nombresJugadores:
+  - {fileID: 1894762708}
+  - {fileID: 494065202}
+  - {fileID: 815817011}
+  - {fileID: 1193771809}
 --- !u!1 &990007336
 GameObject:
   m_ObjectHideFlags: 0
@@ -6167,6 +6186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nombreJugador: 
+  personajeSeleccionado: 0
 --- !u!4 &1713757450
 Transform:
   m_ObjectHideFlags: 0

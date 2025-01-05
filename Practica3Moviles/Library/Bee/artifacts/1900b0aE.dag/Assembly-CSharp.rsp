@@ -397,6 +397,7 @@
 "Assets/Scripts/Player/ControladorCamara.cs"
 "Assets/Scripts/Player/ControladorPersonalizacion.cs"
 "Assets/Scripts/UI/MenuInicial.cs"
+"Assets/Scripts/UI/MenuLobby.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 /deterministic
