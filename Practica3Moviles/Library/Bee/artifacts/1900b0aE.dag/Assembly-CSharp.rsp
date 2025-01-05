@@ -395,6 +395,7 @@
 "Assets/Scripts/Multiplayer/MultiplayManager.cs"
 "Assets/Scripts/Player/ControladorBola.cs"
 "Assets/Scripts/Player/ControladorCamara.cs"
+"Assets/Scripts/Player/ControladorPersonalizacion.cs"
 "Assets/Scripts/UI/MenuInicial.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0

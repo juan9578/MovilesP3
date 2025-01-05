@@ -122,7 +122,7 @@ public class LobbyController : MonoBehaviour
         CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
         {
             IsPrivate = false,
-            // Player = SelectionController.instance.GetPlayer() // Descomentado si es necesario
+            Player = ControladorPersonalizacion.instancia.GetPlayer()
         };
 
         // Se crea la sala con las características dadas
@@ -173,8 +173,13 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
+            QuickJoinLobbyOptions quickJoinLobbyOptions = new QuickJoinLobbyOptions
+            {
+                Player = ControladorPersonalizacion.instancia.GetPlayer()
+            };
+
             // Llamada para unirse automáticamente a la primera sala pública disponible
-            var quickJoinTask = LobbyService.Instance.QuickJoinLobbyAsync();
+            var quickJoinTask = LobbyService.Instance.QuickJoinLobbyAsync(quickJoinLobbyOptions);
             var quickJoinResult = await quickJoinTask;
 
             if (quickJoinTask.Exception != null)
@@ -202,7 +207,7 @@ public class LobbyController : MonoBehaviour
         CreateLobbyOptions createLobbyOptions = new CreateLobbyOptions
         {
             IsPrivate = true,
-            // Player = SelectionController.instance.GetPlayer() // Descomentado si es necesario
+            Player = ControladorPersonalizacion.instancia.GetPlayer()
         };
 
         // Se crea la sala con las características dadas
@@ -255,7 +260,7 @@ public class LobbyController : MonoBehaviour
             // Se crea un jugador con las características correspondientes
             JoinLobbyByCodeOptions options = new JoinLobbyByCodeOptions
             {
-                // Player = SelectionController.instance.GetPlayer()
+                Player = ControladorPersonalizacion.instancia.GetPlayer()
             };
 
             // Intentar unirse al lobby usando el código

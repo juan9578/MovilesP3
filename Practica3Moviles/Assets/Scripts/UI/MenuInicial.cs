@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MenuInicial : MonoBehaviour
 {
     public GameObject panelInicio;
+    public GameObject panelConfiguracion;
     public GameObject panelPartida;
     public GameObject panelPrivado;
     public GameObject panelClave;
@@ -20,6 +21,13 @@ public class MenuInicial : MonoBehaviour
     {
         panelInicio.SetActive(false);
         panelPartida.SetActive(true);
+    }
+
+    // Método para mostrar el menú de configuración
+    public void MostrarConfiguracion()
+    {
+        panelConfiguracion.SetActive(true);
+        panelInicio.SetActive(false);
     }
 
     // Método para salir del juego
@@ -103,7 +111,12 @@ public class MenuInicial : MonoBehaviour
     // Método para volver entre pantallas
     public void Volver()
     {
-        if (panelPartida.activeSelf)
+        if(panelConfiguracion.activeSelf)
+        {
+            panelConfiguracion.SetActive(false);
+            panelInicio.SetActive(true);
+        }
+        else if (panelPartida.activeSelf)
         {
             panelPartida.SetActive(false);
             panelInicio.SetActive(true);
