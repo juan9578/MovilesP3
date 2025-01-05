@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuInicial : MonoBehaviour
 {
@@ -15,6 +16,45 @@ public class MenuInicial : MonoBehaviour
     public GameObject claveLobby;
 
     public string codigoInvitacion;
+
+    public AudioSource musicAudioSource; // Fuente de audio para la música
+    public AudioSource soundEffectsAudioSource; // Fuente de audio para los efectos de sonido
+    public Toggle musicToggle; // Toggle para la música
+    public Toggle soundEffectsToggle; // Toggle para los efectos de sonido
+
+    void Start()
+    {
+        // Inicializa los toggles según el estado actual del audio
+        if (musicToggle != null && musicAudioSource != null)
+        {
+            musicToggle.isOn = !musicAudioSource.mute;
+            musicToggle.onValueChanged.AddListener(ToggleMusic);
+        }
+
+        if (soundEffectsToggle != null && soundEffectsAudioSource != null)
+        {
+            soundEffectsToggle.isOn = !soundEffectsAudioSource.mute;
+            soundEffectsToggle.onValueChanged.AddListener(ToggleSoundEffects);
+        }
+    }
+
+    // Activar/desactivar música
+    public void ToggleMusic(bool isOn)
+    {
+        if (musicAudioSource != null)
+        {
+            musicAudioSource.mute = !isOn;
+        }
+    }
+
+    // Activar/desactivar efectos de sonido
+    public void ToggleSoundEffects(bool isOn)
+    {
+        if (soundEffectsAudioSource != null)
+        {
+            soundEffectsAudioSource.mute = !isOn;
+        }
+    }
 
     // Método para cambiar de panel y comenzar a jugar
     public void Comenzar()
