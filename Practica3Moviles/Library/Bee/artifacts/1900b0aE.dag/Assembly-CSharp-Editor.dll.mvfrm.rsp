@@ -23,10 +23,14 @@ Library\Bee\artifacts\mvdfrm\Unity.Notifications.iOS.ref.dll_F8131B77D746DCAF.mv
 Library\Bee\artifacts\mvdfrm\Unity.PlasticSCM.Editor.ref.dll_257AEB342BE77856.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Profiling.Core.ref.dll_DDC12D7300735955.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Rider.Editor.ref.dll_9B5591808ABA37AF.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Services.Authentication.Editor.Shared.ref.dll_851AD2D833C89768.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Services.Authentication.PlayerAccounts.ref.dll_FE92F4FC03A12DAB.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Authentication.ref.dll_AA487F5786203DE0.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Core.Analytics.ref.dll_EDA1682A714EA6BF.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Core.Environments.ref.dll_7E0AC2CDE81D9C6D.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Core.ref.dll_131AC9C5EC6E6517.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Services.Leaderboards.Editor.ref.dll_0F054D834F11DEC3.mvfrm
+Library\Bee\artifacts\mvdfrm\Unity.Services.Leaderboards.ref.dll_7F6608FB88255FCE.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Lobbies.ref.dll_818EF1A799CB94D2.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Matchmaker.ref.dll_96A919AC4309FFF7.mvfrm
 Library\Bee\artifacts\mvdfrm\Unity.Services.Multiplay.Sqp.ref.dll_FA68DF7BD42CDE1F.mvfrm

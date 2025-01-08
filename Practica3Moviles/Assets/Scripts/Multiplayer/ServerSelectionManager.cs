@@ -58,7 +58,7 @@ public class ServerSelectionManager : NetworkBehaviour
         {
             int mejorOpcion = 0;
             int mejorEscenario = 0;
-            for(int i = 0; i < numSelecciones; i++)
+            for(int i = 0; i < escenariosElegidos.Count; i++)
             {
                 if (escenariosElegidos[i] > mejorOpcion)
                 {

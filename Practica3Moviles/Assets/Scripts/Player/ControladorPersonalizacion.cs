@@ -20,6 +20,7 @@ public class ControladorPersonalizacion : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     public void ModificarNombre(string nombre)

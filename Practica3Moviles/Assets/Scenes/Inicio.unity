@@ -2773,7 +2773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   escenarioActual: {fileID: 136554137}
   descripcionEscenarioActual: {fileID: 309445826}
-  dificultadEscenarioActual: {fileID: 309445826}
+  dificultadEscenarioActual: {fileID: 2127531549}
   imagenesEscenarios:
   - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
@@ -9267,6 +9267,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822449266}
   m_CullTransparentMesh: 1
+--- !u!1 &1867677434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1867677437}
+  - component: {fileID: 1867677435}
+  - component: {fileID: 1867677436}
+  m_Layer: 0
+  m_Name: '@SceneSpawner'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1867677435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867677434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 702647496
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1867677436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867677434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fd64a06af67f44a823d1adc25f5663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnsLaberinto1:
+  - {x: -3, y: 0.5, z: -15}
+  - {x: -3, y: 0.5, z: -10}
+  - {x: 3, y: 0.5, z: -15}
+  - {x: 3, y: 0.5, z: -10}
+  spawnsLaberinto2:
+  - {x: -3, y: 0.5, z: -15}
+  - {x: -3, y: 0.5, z: -10}
+  - {x: 3, y: 0.5, z: -15}
+  - {x: 3, y: 0.5, z: -10}
+  spawnsLaberinto3:
+  - {x: -3, y: 0.5, z: -15}
+  - {x: -3, y: 0.5, z: -10}
+  - {x: 3, y: 0.5, z: -15}
+  - {x: 3, y: 0.5, z: -10}
+  playerPrefab: {fileID: 2026339014516301955, guid: e5bef3a604c20bf43a0dd5a8883d5be2,
+    type: 3}
+--- !u!4 &1867677437
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867677434}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1869848185
 GameObject:
   m_ObjectHideFlags: 0
@@ -10804,3 +10887,4 @@ SceneRoots:
   - {fileID: 414147741}
   - {fileID: 1713757450}
   - {fileID: 1167918333}
+  - {fileID: 1867677437}
