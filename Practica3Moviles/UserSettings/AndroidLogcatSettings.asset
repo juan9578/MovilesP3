@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "8772ca4b0406",
+    "m_SelectedDeviceId": "fa7db6c5",
     "m_SelectedProcess": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "fa7db6c5",
+        "name": "com.DefaultCompany.Practica3Moviles",
+        "processId": 12094,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -12,6 +12,12 @@
             "deviceId": "8772ca4b0406",
             "name": "com.android.settings",
             "processId": 20834,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.DefaultCompany.Practica3Moviles",
+            "processId": 12094,
             "exited": false
         }
     ],

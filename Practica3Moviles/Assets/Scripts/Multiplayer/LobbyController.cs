@@ -23,6 +23,8 @@ public class LobbyController : MonoBehaviour
 
     // Código de la sala
     public string lobbyCode;
+    // Código de relay
+    public string relayCode;
 
     // Variable que indica si se está en el lobby
     public bool inLobby = false;
@@ -52,8 +54,6 @@ public class LobbyController : MonoBehaviour
 
     async void Start()
     {
-        // Este código solo se ejecuta en el cliente
-        if (Application.platform == RuntimePlatform.LinuxServer) return;
         // Se inicializan los servicios de Unity
         await UnityServices.InitializeAsync();
         // Se hace un registro anónimo
@@ -110,6 +110,7 @@ public class LobbyController : MonoBehaviour
     // Función que devuelve si hay lobbies disponibles para que el jugador pueda unirse
     public async Task<bool> CheckLobbies()
     {
+        await Task.Delay(1000);
         bool available = await IsLobbyAvailableAsync();
 
         if (available)
@@ -177,24 +178,16 @@ public class LobbyController : MonoBehaviour
         Debug.Log("Created Lobby! " + _hostLobby.LobbyCode);
         lobbyCode = _joinedLobby.LobbyCode;
 
-        // Llama a FirstServerJoin y espera a que termine de forma asincrónica
-        bool serverFound = await MatchmakerManager.Instance.FirstServerJoinAsync();
-
-        if (!serverFound)
-        {
-            Debug.Log("Server not found.");
-            return;
-        }
-
-        // Se recibe la IP y el puerto del servidor para establecer la conexión
-        string serverIP = MatchmakerManager.Instance.GetServerIP();
-        ushort serverPort = MatchmakerManager.Instance.GetServerPort();
+        // Se crea el punto de Relay para que se conecten los demás clientes
+        // Se espera a que se cree para continuar
+        await RelayManager.Instance.CreateRelay(MAX_PLAYERS);
+        // Una vez creado se obtiene la clave
+        relayCode = RelayManager.Instance.joinCode;
 
         // Se guarda dicha información en la sala
         Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>
         {
-            { "serverIP", new DataObject(DataObject.VisibilityOptions.Member, serverIP) },
-            { "serverPort", new DataObject(DataObject.VisibilityOptions.Member, serverPort.ToString()) }
+            { "relayCode", new DataObject(DataObject.VisibilityOptions.Member, relayCode) },
         };
 
         try
@@ -238,12 +231,11 @@ public class LobbyController : MonoBehaviour
             _joinedLobby = quickJoinResult;
             Debug.Log("Successfully joined a public lobby: " + _joinedLobby.LobbyCode);
             inLobby = true;
-            // Una vez se une al lobby, se obtienen la IP y el puerto del servidor
-            string serverIP = _joinedLobby.Data["serverIP"].Value;
-            string serverPort = _joinedLobby.Data["serverPort"].Value;
+            // Una vez se une al lobby, se obtiene el código de relay para establecer la conexión
+            relayCode = _joinedLobby.Data["relayCode"].Value;
 
             // Se une al servidor
-            MultiplayManager.Instance.JoinToServer(serverIP, serverPort);
+            RelayManager.Instance.JoinRelay(relayCode);
             return true; // Indica que el unirse fue exitoso
         }
         catch (Exception ex)
@@ -268,24 +260,16 @@ public class LobbyController : MonoBehaviour
         Debug.Log("Created Lobby! " + _hostLobby.LobbyCode);
         lobbyCode = _joinedLobby.LobbyCode;
 
-        // Llama a FirstServerJoin y espera a que termine de forma asincrónica
-        bool serverFound = await MatchmakerManager.Instance.FirstServerJoinAsync();
-
-        if (!serverFound)
-        {
-            Debug.Log("Server not found.");
-            return;
-        }
-
-        // Se recibe la IP y el puerto del servidor para establecer la conexión
-        string serverIP = MatchmakerManager.Instance.GetServerIP();
-        ushort serverPort = MatchmakerManager.Instance.GetServerPort();
+        // Se crea el punto de Relay para que se conecten los demás clientes
+        // Se espera a que se cree para continuar
+        await RelayManager.Instance.CreateRelay(MAX_PLAYERS);
+        // Una vez creado se obtiene la clave
+        relayCode = RelayManager.Instance.joinCode;
 
         // Se guarda dicha información en la sala
         Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>
         {
-            { "serverIP", new DataObject(DataObject.VisibilityOptions.Member, serverIP) },
-            { "serverPort", new DataObject(DataObject.VisibilityOptions.Member, serverPort.ToString()) }
+            { "relayCode", new DataObject(DataObject.VisibilityOptions.Member, relayCode) },
         };
 
         try
@@ -324,12 +308,11 @@ public class LobbyController : MonoBehaviour
             lobbyCode = _joinedLobby.LobbyCode;
             Debug.Log("Joined Lobby with code: " + lobbyCode);
 
-            // Una vez se une al lobby, se obtienen la IP y el puerto del servidor
-            string serverIP = _joinedLobby.Data["serverIP"].Value;
-            string serverPort = _joinedLobby.Data["serverPort"].Value;
+            // Una vez se une al lobby, se obtiene el código de relay para establecer la conexión
+            relayCode = _joinedLobby.Data["relayCode"].Value;
 
             // Se une al servidor
-            MultiplayManager.Instance.JoinToServer(serverIP, serverPort);
+            RelayManager.Instance.JoinRelay(relayCode);
 
             inLobby = true;
             onComplete(true); // Indicar éxito
@@ -394,6 +377,7 @@ public class LobbyController : MonoBehaviour
         _hostLobby = null;
         inLobby = false;
         NetworkManager.Singleton.Shutdown();
+        ServerPlayerManager.instance.abandonandoSala = false;
     }
 
 }

@@ -9,6 +9,8 @@ public class ControladorCamara : MonoBehaviour
 
     void LateUpdate()
     {
+        // Este código solo se ejecuta en el cliente
+        if (Application.platform == RuntimePlatform.LinuxServer) return;
         // Actualiza la posición de la cámara para que siga a la bola
         transform.position = bola.position + offset;
     }

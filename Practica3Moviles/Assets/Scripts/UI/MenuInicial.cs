@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class MenuInicial : MonoBehaviour
 {
+    public static MenuInicial instancia;
+
     public GameObject panelInicio;
     public GameObject panelConfiguracion;
     public GameObject panelPartida;
@@ -26,8 +28,22 @@ public class MenuInicial : MonoBehaviour
     public Toggle musicToggle; // Toggle para la música
     public Toggle soundEffectsToggle; // Toggle para los efectos de sonido
 
+    private void Awake()
+    {
+        if (instancia == null)
+        {
+            instancia = this;
+        }
+        else
+        {
+            Destroy(instancia);
+        }
+    }
+
     void Start()
     {
+        // Este código solo se ejecuta en el cliente
+        if (Application.platform == RuntimePlatform.LinuxServer) return;
         // Inicializa los toggles según el estado actual del audio
         if (musicToggle != null && musicAudioSource != null)
         {
@@ -81,7 +97,8 @@ public class MenuInicial : MonoBehaviour
     public void Comenzar()
     {
         panelInicio.SetActive(false);
-        panelSeleccion.SetActive(true); // Muestra el nuevo panel
+        // panelSeleccion.SetActive(true); // Muestra el nuevo panel
+        panelPartida.SetActive(true);
     }
 
     // Método para confirmar selección de personaje y mapa
@@ -213,6 +230,8 @@ public class MenuInicial : MonoBehaviour
     // Método para abandonar el lobby
     public void AbandonarSala()
     {
+        // Se avisa a los clientes de que el Host ha abandonado la sala
+        ServerPlayerManager.instance.AbandonarSala();
         LobbyController.instancia.LeaveLobby();
         panelLobby.SetActive(false);
         panelPartida.SetActive(true);

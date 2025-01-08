@@ -14,6 +14,8 @@ public class ControladorBola : MonoBehaviour
 
     void Update()
     {
+        // Este código solo se ejecuta en el cliente
+        if (Application.platform == RuntimePlatform.LinuxServer) return;
         // Leer el acelerómetro
         Vector3 tilt = Input.acceleration;
         Vector3 fuerza = new Vector3(tilt.x, 0, tilt.y);
