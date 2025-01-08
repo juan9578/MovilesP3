@@ -56,23 +56,6 @@ public class MenuInicial : MonoBehaviour
             soundEffectsToggle.isOn = !soundEffectsAudioSource.mute;
             soundEffectsToggle.onValueChanged.AddListener(ToggleSoundEffects);
         }
-
-        // Configuración de los desplegables
-        if (dropdownPersonaje != null)
-        {
-            dropdownPersonaje.options.Clear();
-            dropdownPersonaje.options.Add(new TMP_Dropdown.OptionData("Personaje 1"));
-            dropdownPersonaje.options.Add(new TMP_Dropdown.OptionData("Personaje 2"));
-            dropdownPersonaje.options.Add(new TMP_Dropdown.OptionData("Personaje 3"));
-        }
-
-        if (dropdownMapa != null)
-        {
-            dropdownMapa.options.Clear();
-            dropdownMapa.options.Add(new TMP_Dropdown.OptionData("Mapa 1"));
-            dropdownMapa.options.Add(new TMP_Dropdown.OptionData("Mapa 2"));
-            dropdownMapa.options.Add(new TMP_Dropdown.OptionData("Mapa 3"));
-        }
     }
 
     // Activar/desactivar música
@@ -99,22 +82,6 @@ public class MenuInicial : MonoBehaviour
         panelInicio.SetActive(false);
         // panelSeleccion.SetActive(true); // Muestra el nuevo panel
         panelPartida.SetActive(true);
-    }
-
-    // Método para confirmar selección de personaje y mapa
-    public void ConfirmarSeleccion()
-    {
-        int personajeSeleccionado = dropdownPersonaje.value;
-        string nombrePersonaje = dropdownPersonaje.options[personajeSeleccionado].text;
-
-        int mapaSeleccionado = dropdownMapa.value;
-        string nombreMapa = dropdownMapa.options[mapaSeleccionado].text;
-
-        Debug.Log($"Personaje seleccionado: {nombrePersonaje}");
-        Debug.Log($"Mapa seleccionado: {nombreMapa}");
-
-        panelSeleccion.SetActive(false);
-        panelPartida.SetActive(true); // Cambiar al panel de partida
     }
 
     // Método para mostrar el menú de configuración

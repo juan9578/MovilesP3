@@ -395,12 +395,14 @@
 "Assets/Scripts/Multiplayer/LobbyController.cs"
 "Assets/Scripts/Multiplayer/RelayManager.cs"
 "Assets/Scripts/Multiplayer/ServerPlayerManager.cs"
+"Assets/Scripts/Multiplayer/ServerSelectionManager.cs"
 "Assets/Scripts/Player/ControladorBola.cs"
 "Assets/Scripts/Player/ControladorCamara.cs"
 "Assets/Scripts/Player/ControladorPersonalizacion.cs"
 "Assets/Scripts/UI/MenuInicial.cs"
 "Assets/Scripts/UI/MenuLobby.cs"
-"Assets/Scripts/UI/SceneLoader.cs"
+"Assets/Scripts/UI/MenuSeleccion.cs"
+"Assets/Scripts/UI/ServerSceneLoader.cs"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 -langversion:9.0
 /deterministic
