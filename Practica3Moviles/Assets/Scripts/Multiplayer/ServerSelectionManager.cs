@@ -46,6 +46,8 @@ public class ServerSelectionManager : NetworkBehaviour
         // Se muestra el texto de espera
         textoInformacion.SetActive(false);
         textoEspera.SetActive(true);
+        GestorEscenas.instance.juegoComenzado = true;
+        GestorEscenas.instance.modoMultijugador = MenuInicial.instancia.indicePantallaAnterior;
     }
 
     [ServerRpc(RequireOwnership = false)]

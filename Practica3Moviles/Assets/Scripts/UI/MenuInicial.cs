@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ public class MenuInicial : MonoBehaviour
     public GameObject panelInicio;
     public GameObject panelConfiguracion;
     public GameObject panelPartida;
+    public GameObject panelSkins;
     public GameObject panelPrivado;
     public GameObject panelClave;
     public GameObject panelLobby;
@@ -28,6 +30,8 @@ public class MenuInicial : MonoBehaviour
     public Toggle musicToggle; // Toggle para la música
     public Toggle soundEffectsToggle; // Toggle para los efectos de sonido
 
+    public int indicePantallaAnterior = 0; // Indice para manejar qué función utilizar al seleccionar el personaje
+
     private void Awake()
     {
         if (instancia == null)
@@ -42,8 +46,28 @@ public class MenuInicial : MonoBehaviour
 
     void Start()
     {
-        // Este código solo se ejecuta en el cliente
-        if (Application.platform == RuntimePlatform.LinuxServer) return;
+        if (GestorEscenas.instance.juegoComenzado)
+        {
+            panelLobby.SetActive(true);
+            switch (GestorEscenas.instance.modoMultijugador)
+            {
+                case 0:
+                    claveLobby.SetActive(false);
+                    break;
+                case 1:
+                    claveLobby.SetActive(true);
+                    claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + LobbyController.instancia.lobbyCode;
+                    break;
+                case 2:
+                    claveLobby.SetActive(true);
+                    claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + LobbyController.instancia.lobbyCode;
+                    break;
+            }
+        }
+        else
+        {
+            panelInicio.SetActive(true);
+        }
         // Inicializa los toggles según el estado actual del audio
         if (musicToggle != null && musicAudioSource != null)
         {
@@ -98,8 +122,17 @@ public class MenuInicial : MonoBehaviour
         Application.Quit();
     }
 
+    public void MostrarPanelSkins(int panelAnterior)
+    {
+        indicePantallaAnterior = panelAnterior;
+        panelPartida.SetActive(false);
+        panelPrivado.SetActive(false);
+        panelClave.SetActive(false);
+        panelSkins.SetActive(true);
+    }
+
     // Método para buscar una partida
-    public async void BuscarPartida()
+    public async Task BuscarPartida()
     {
         // Primero se comprueba si hay salas disponibles
         bool lobbyDisponible = await LobbyController.instancia.CheckLobbies();
@@ -114,7 +147,7 @@ public class MenuInicial : MonoBehaviour
             await LobbyController.instancia.CreatePublicLobby();
         }
 
-        panelPartida.SetActive(false);
+        panelSkins.SetActive(false);
         panelLobby.SetActive(true);
         claveLobby.SetActive(false);
     }
@@ -127,11 +160,11 @@ public class MenuInicial : MonoBehaviour
     }
 
     // Método para crear una sala privada
-    public async void CrearSalaPrivada()
+    public async Task CrearSalaPrivada()
     {
         await LobbyController.instancia.CreatePrivateLobby();
 
-        panelPrivado.SetActive(false);
+        panelSkins.SetActive(false);
         panelLobby.SetActive(true);
         claveLobby.SetActive(true);
 
@@ -153,7 +186,7 @@ public class MenuInicial : MonoBehaviour
     }
 
     // Método para unirse a una sala privada, con una contraseña
-    public async void EntrarSalaPrivada()
+    public async Task EntrarSalaPrivada()
     {
         bool unidoSala = false;
         await LobbyController.instancia.JoinPrivateLobby(codigoInvitacion, (exito) => unidoSala = exito);
@@ -161,12 +194,12 @@ public class MenuInicial : MonoBehaviour
         {
             Debug.Log("La clave introducida no es correcta");
         }
-        panelClave.SetActive(false);
+        panelSkins.SetActive(false);
         panelLobby.SetActive(true);
         claveLobby.SetActive(true);
 
         // Se muestra la clave del lobby en la pantalla
-        claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + LobbyController.instancia.lobbyCode;
+        claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + codigoInvitacion;
     }
 
     // Método para volver entre pantallas

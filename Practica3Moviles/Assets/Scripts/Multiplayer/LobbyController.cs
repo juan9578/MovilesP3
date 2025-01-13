@@ -230,6 +230,7 @@ public class LobbyController : MonoBehaviour
             // Se ha unido correctamente a la sala
             _joinedLobby = quickJoinResult;
             Debug.Log("Successfully joined a public lobby: " + _joinedLobby.LobbyCode);
+            lobbyCode = _joinedLobby.LobbyCode;
             inLobby = true;
             // Una vez se une al lobby, se obtiene el código de relay para establecer la conexión
             relayCode = _joinedLobby.Data["relayCode"].Value;
