@@ -33,6 +33,7 @@ public class GestorPartidas : MonoBehaviour
         puntuacionAsignada = Random.Range(0, 100);
         puntuacion.text = puntuacionAsignada.ToString();
         NivelJugador.instancia.SumarPuntos(puntuacionAsignada);
+        ActualizacionRanking.instancia.EnviarPuntuacionRanking(puntuacionAsignada);
     }
 
 }

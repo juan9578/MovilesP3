@@ -13,6 +13,7 @@ public class MenuInicial : MonoBehaviour
     public GameObject panelInicio;
     public GameObject panelConfiguracion;
     public GameObject panelPartida;
+    public GameObject panelRanking;
     public GameObject panelSkins;
     public GameObject panelPrivado;
     public GameObject panelClave;
@@ -122,6 +123,12 @@ public class MenuInicial : MonoBehaviour
         Application.Quit();
     }
 
+    public void MostrarRanking()
+    {
+        panelPartida.SetActive(false);
+        panelRanking.SetActive(true);
+    }
+
     public void MostrarPanelSkins(int panelAnterior)
     {
         indicePantallaAnterior = panelAnterior;
@@ -224,6 +231,11 @@ public class MenuInicial : MonoBehaviour
         {
             panelClave.SetActive(false);
             panelPrivado.SetActive(true);
+        }
+        else if (panelRanking.activeSelf)
+        {
+            panelRanking.SetActive(false);
+            panelPartida.SetActive(true);
         }
     }
 
