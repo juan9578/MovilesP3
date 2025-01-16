@@ -1,26 +1,83 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class ControladorBola : MonoBehaviour
+public class ControladorBola : NetworkBehaviour
 {
-    public float velocidadBola = 10f; // Velocidad de movimiento
-    private Rigidbody RBbola;
+    public float velocidadBola = 0.1f; // Velocidad de movimiento
+    private Rigidbody _rb;
+    public Vector3 direccionMovimiento;
 
     void Start()
     {
-        RBbola = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
+        if (!IsOwner) return;
+        
+        // Se hace que la cámara siga y mire hacia la bola
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SeguimientoCamara>().AsignarObjetivo(gameObject);
+
+        // Se hace que el controlador de la partida obtenga el id del cliente
+        GestorPartidas.instance.idCliente = (int)OwnerClientId;
     }
 
     void Update()
     {
-        // Este código solo se ejecuta en el cliente
-        if (Application.platform == RuntimePlatform.LinuxServer) return;
-        // Leer el acelerómetro
-        Vector3 tilt = Input.acceleration;
-        Vector3 fuerza = new Vector3(tilt.x, 0, tilt.y);
+        if (!IsOwner) return;
+        if (!GestorPartidas.instance.juegoComenzado || GestorPartidas.instance.juegoTerminado) return;
+        // Se resetea la direccion de movimiento en cada frame
+        direccionMovimiento = Vector3.zero;
+        // Gestión de los controles
+        // En móvil
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Vector3 aceleracion = Input.acceleration;
+            direccionMovimiento = new Vector3(aceleracion.x, 0, aceleracion.y);
+        }
+        /// PROVISIONAL ///
+        else
+        {
+            // En ordenador
+            if (Input.GetKey(KeyCode.W)) direccionMovimiento.z = 1f;
+            if (Input.GetKey(KeyCode.S)) direccionMovimiento.z = -1f;
+            if (Input.GetKey(KeyCode.A)) direccionMovimiento.x = -1f;
+            if (Input.GetKey(KeyCode.D)) direccionMovimiento.x = 1f;
+        }
 
-        // Aplicar fuerza para mover la bola
-        RBbola.AddForce(fuerza * velocidadBola);
+        // Si se trata del movimiento del Host, se aplica directamente
+        if (IsHost)
+        {
+            _rb.AddForce(direccionMovimiento * velocidadBola);
+        }
+        // En el caso de los clientes, se notifica al servidor
+        else
+        {
+            if (direccionMovimiento == Vector3.zero) return; // En caso de no haber hecho ningún input, se evita enviar el mensaje
+            CambiarDireccionJugadorServerRpc(direccionMovimiento, (int)OwnerClientId);
+        }
+
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CambiarDireccionJugadorServerRpc(Vector3 direccion, int playerId)
+    {
+        // Se comprueba primero si el jugador que se está comprobando es del que se ha recibido el input
+        if (playerId != (int)OwnerClientId) return;
+        // Se modifica la dirección de movimiento del jugador en el servidor
+        _rb.AddForce(direccion * velocidadBola);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Meta"))
+        {
+            _rb.velocity = Vector3.zero;
+            _rb.angularVelocity = Vector3.zero;
+            _rb.isKinematic = true;
+            // Se indica que un jugador más ha llegado a la meta
+            GestorPartidas.instance.JugadorMeta((int)OwnerClientId, GestorPartidas.instance.temporizador);
+        }
+    }
+
 }

@@ -10,6 +10,10 @@ public class MenuInicial : MonoBehaviour
 {
     public static MenuInicial instancia;
 
+    public bool tutorialIniciado = false;
+
+    public GameObject panelBienvenida;
+    public GameObject panelTutorial;
     public GameObject panelInicio;
     public GameObject panelConfiguracion;
     public GameObject panelPartida;
@@ -20,6 +24,10 @@ public class MenuInicial : MonoBehaviour
     public GameObject panelLobby;
     public GameObject claveLobby;
     public GameObject panelSeleccion; // Nuevo panel de selección
+
+    public GameObject botonTutorial;
+    public GameObject jugadorTutorial;
+    public Vector3 posicionJugadorTutorial;
 
     public TMP_Dropdown dropdownPersonaje; // Dropdown para seleccionar personaje
     public TMP_Dropdown dropdownMapa; // Dropdown para seleccionar mapa
@@ -49,6 +57,7 @@ public class MenuInicial : MonoBehaviour
     {
         if (GestorEscenas.instance.juegoComenzado)
         {
+            botonTutorial.SetActive(true);
             panelLobby.SetActive(true);
             switch (GestorEscenas.instance.modoMultijugador)
             {
@@ -67,7 +76,19 @@ public class MenuInicial : MonoBehaviour
         }
         else
         {
-            panelInicio.SetActive(true);
+            // Se comprueba si ya se ha jugado alguna vez, buscando el nombre del jugador
+            string nombreJugador = PlayerPrefs.GetString("Nombre_Jugador");
+            if (nombreJugador == "")
+            {
+                panelBienvenida.SetActive(true);
+            }
+            else
+            {
+                // Se asigna el nombre del jugador almacenado
+                ControladorPersonalizacion.instancia.nombreJugador = nombreJugador;
+                panelInicio.SetActive(true);
+                botonTutorial.SetActive(true);
+            }
         }
         // Inicializa los toggles según el estado actual del audio
         if (musicToggle != null && musicAudioSource != null)
@@ -99,6 +120,25 @@ public class MenuInicial : MonoBehaviour
         {
             soundEffectsAudioSource.mute = !isOn;
         }
+    }
+
+    // Método para iniciar el tutorial
+    public void IniciarTutorial(bool primeraVez)
+    {
+        if (ControladorPersonalizacion.instancia.nombreJugador == "") return;
+        tutorialIniciado = true;
+        panelInicio.SetActive(false);
+        panelBienvenida.SetActive(false);
+        panelTutorial.SetActive(true);
+    }
+
+    // Método para terminar el tutorial y pasar al menu
+    public void IrMenu()
+    {
+        tutorialIniciado = false;
+        panelInicio.SetActive(true);
+        panelTutorial.SetActive(false);
+        jugadorTutorial.transform.position = posicionJugadorTutorial;
     }
 
     // Método para cambiar de panel y mostrar el panel de selección
@@ -235,6 +275,11 @@ public class MenuInicial : MonoBehaviour
         else if (panelRanking.activeSelf)
         {
             panelRanking.SetActive(false);
+            panelPartida.SetActive(true);
+        }
+        else if (panelSkins.activeSelf)
+        {
+            panelSkins.SetActive(false);
             panelPartida.SetActive(true);
         }
     }

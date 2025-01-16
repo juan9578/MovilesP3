@@ -3,7 +3,7 @@
     "m_SelectedProcess": {
         "deviceId": "fa7db6c5",
         "name": "com.DefaultCompany.Practica3Moviles",
-        "processId": 12094,
+        "processId": 14792,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -18,6 +18,30 @@
             "deviceId": "fa7db6c5",
             "name": "com.DefaultCompany.Practica3Moviles",
             "processId": 12094,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.DefaultCompany.Practica3Moviles",
+            "processId": 13090,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.DefaultCompany.Practica3Moviles",
+            "processId": 14159,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.DefaultCompany.Practica3Moviles",
+            "processId": 14499,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.DefaultCompany.Practica3Moviles",
+            "processId": 14792,
             "exited": false
         }
     ],

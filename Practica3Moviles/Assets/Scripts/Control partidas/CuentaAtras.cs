@@ -24,7 +24,7 @@ public class CuentaAtras : MonoBehaviour
         GestorPartidas.instance.juegoComenzado = true;
         yield return new WaitForSeconds(1f);
         temporizador.text = "";
-        GestorPartidas.instance.MostrarResultados();
+        GestorPartidas.instance.panelPartida.SetActive(true);
         gameObject.SetActive(false);
     }
 }

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Leaderboards;
 using UnityEngine;
@@ -32,10 +33,11 @@ public class ConsultaRanking : MonoBehaviour
         }
     }
 
-    void Start()
+    async void Start()
     {
         PrepararListas();
-        CargarRankings();
+        await CargarRankings();
+        ActualizarRanking();
     }
 
     public void PrepararListas()
@@ -46,7 +48,7 @@ public class ConsultaRanking : MonoBehaviour
             puntuacionesRanking.Add(new List<string>());
         }
     }
-    public async void CargarRankings()
+    public async Task CargarRankings()
     {
         // Cargar las primeras 15 mejores puntuaciones de cada leaderboard
         var puntuacionesL1 = await LeaderboardsService.Instance.GetScoresAsync("Laberinto1",

@@ -26,6 +26,8 @@ public class ControladorPersonalizacion : MonoBehaviour
     public void ModificarNombre(string nombre)
     {
         nombreJugador = nombre;
+        // Se almacena el nombre del jugador de forma persistente
+        PlayerPrefs.SetString("Nombre_Jugador", nombreJugador);
     }
 
     // Función que devuelve un jugador con sus datos para incluirlo en el lobby

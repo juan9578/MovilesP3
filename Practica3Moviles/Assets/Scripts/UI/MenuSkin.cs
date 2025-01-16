@@ -18,11 +18,17 @@ public class MenuSkin : MonoBehaviour
 
     public Slider puntosNivel;
     public TMP_Text nivel;
+    public TMP_Text nombreJugador;
 
     void Start()
     {
         ActualizarImagenSkin();
         ActualizarNivel();
+    }
+
+    private void Update()
+    {
+        nombreJugador.text = ControladorPersonalizacion.instancia.nombreJugador;
     }
 
     public void ActualizarNivel()
