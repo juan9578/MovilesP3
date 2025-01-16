@@ -41,6 +41,9 @@ public class MenuInicial : MonoBehaviour
 
     public int indicePantallaAnterior = 0; // Indice para manejar qué función utilizar al seleccionar el personaje
 
+    private const string MusicPrefKey = "MusicEnabled"; // Clave para guardar el estado de la música
+    private const string SoundEffectsPrefKey = "SoundEffectsEnabled"; // Clave para guardar el estado de los efectos de sonido
+
     private void Awake()
     {
         if (instancia == null)
@@ -76,7 +79,6 @@ public class MenuInicial : MonoBehaviour
         }
         else
         {
-            // Se comprueba si ya se ha jugado alguna vez, buscando el nombre del jugador
             string nombreJugador = PlayerPrefs.GetString("Nombre_Jugador");
             if (nombreJugador == "")
             {
@@ -84,22 +86,28 @@ public class MenuInicial : MonoBehaviour
             }
             else
             {
-                // Se asigna el nombre del jugador almacenado
                 ControladorPersonalizacion.instancia.nombreJugador = nombreJugador;
                 panelInicio.SetActive(true);
                 botonTutorial.SetActive(true);
             }
         }
-        // Inicializa los toggles según el estado actual del audio
+
+        // Inicializa los toggles según los valores guardados
         if (musicToggle != null && musicAudioSource != null)
         {
-            musicToggle.isOn = !musicAudioSource.mute;
+            bool isMusicEnabled = PlayerPrefs.GetInt(MusicPrefKey, 1) == 1; // Por defecto, la música está activada
+            musicToggle.isOn = isMusicEnabled;
+            musicAudioSource.mute = !isMusicEnabled;
+
             musicToggle.onValueChanged.AddListener(ToggleMusic);
         }
 
         if (soundEffectsToggle != null && soundEffectsAudioSource != null)
         {
-            soundEffectsToggle.isOn = !soundEffectsAudioSource.mute;
+            bool areSoundEffectsEnabled = PlayerPrefs.GetInt(SoundEffectsPrefKey, 1) == 1; // Por defecto, los efectos de sonido están activados
+            soundEffectsToggle.isOn = areSoundEffectsEnabled;
+            soundEffectsAudioSource.mute = !areSoundEffectsEnabled;
+
             soundEffectsToggle.onValueChanged.AddListener(ToggleSoundEffects);
         }
     }
@@ -110,6 +118,10 @@ public class MenuInicial : MonoBehaviour
         if (musicAudioSource != null)
         {
             musicAudioSource.mute = !isOn;
+
+            // Guardar el estado de la música
+            PlayerPrefs.SetInt(MusicPrefKey, isOn ? 1 : 0);
+            PlayerPrefs.Save();
         }
     }
 
@@ -119,6 +131,10 @@ public class MenuInicial : MonoBehaviour
         if (soundEffectsAudioSource != null)
         {
             soundEffectsAudioSource.mute = !isOn;
+
+            // Guardar el estado de los efectos de sonido
+            PlayerPrefs.SetInt(SoundEffectsPrefKey, isOn ? 1 : 0);
+            PlayerPrefs.Save();
         }
     }
 
