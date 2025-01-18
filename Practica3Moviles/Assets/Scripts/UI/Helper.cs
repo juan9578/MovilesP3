@@ -13,11 +13,12 @@ public class Helper : NetworkBehaviour
     public float maxDistance = 20f; // Distancia máxima para medir la proximidad
 
     private void Start() {
-        /*var controladores = FindObjectsOfType<ControladorBola>();
+        var controladores = FindObjectsOfType<ControladorBola>();
         foreach (var player in controladores){
-            if (player)
-        }*/
-        playerTransform = transform;
+            if (player.IsOwner){
+                playerTransform = player.transform;
+            }
+        }
     }
     void Update()
     {
