@@ -15,8 +15,9 @@ public class ControladorBola : NetworkBehaviour
         _rb = GetComponent<Rigidbody>();
         if (!IsOwner) return;
         
-        // Se hace que la cámara siga y mire hacia la bola
+        // Se hace que la cï¿½mara siga y mire hacia la bola
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SeguimientoCamara>().AsignarObjetivo(gameObject);
+        GameObject.FindGameObjectWithTag("MMCam").GetComponent<MiniMapCamContr>().AsignarObjetivo(gameObject);
 
         // Se hace que el controlador de la partida obtenga el id del cliente
         GestorPartidas.instance.idCliente = (int)OwnerClientId;
@@ -28,8 +29,8 @@ public class ControladorBola : NetworkBehaviour
         if (!GestorPartidas.instance.juegoComenzado || GestorPartidas.instance.juegoTerminado) return;
         // Se resetea la direccion de movimiento en cada frame
         direccionMovimiento = Vector3.zero;
-        // Gestión de los controles
-        // En móvil
+        // Gestiï¿½n de los controles
+        // En mï¿½vil
         if (Application.platform == RuntimePlatform.Android)
         {
             Vector3 aceleracion = Input.acceleration;
@@ -53,7 +54,7 @@ public class ControladorBola : NetworkBehaviour
         // En el caso de los clientes, se notifica al servidor
         else
         {
-            if (direccionMovimiento == Vector3.zero) return; // En caso de no haber hecho ningún input, se evita enviar el mensaje
+            if (direccionMovimiento == Vector3.zero) return; // En caso de no haber hecho ningï¿½n input, se evita enviar el mensaje
             CambiarDireccionJugadorServerRpc(direccionMovimiento, (int)OwnerClientId);
         }
 
@@ -62,9 +63,9 @@ public class ControladorBola : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CambiarDireccionJugadorServerRpc(Vector3 direccion, int playerId)
     {
-        // Se comprueba primero si el jugador que se está comprobando es del que se ha recibido el input
+        // Se comprueba primero si el jugador que se estï¿½ comprobando es del que se ha recibido el input
         if (playerId != (int)OwnerClientId) return;
-        // Se modifica la dirección de movimiento del jugador en el servidor
+        // Se modifica la direcciï¿½n de movimiento del jugador en el servidor
         _rb.AddForce(direccion * velocidadBola);
     }
 
@@ -75,7 +76,7 @@ public class ControladorBola : NetworkBehaviour
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
             _rb.isKinematic = true;
-            // Se indica que un jugador más ha llegado a la meta
+            // Se indica que un jugador mï¿½s ha llegado a la meta
             GestorPartidas.instance.JugadorMeta((int)OwnerClientId, GestorPartidas.instance.temporizador);
         }
     }

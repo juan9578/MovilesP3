@@ -6,15 +6,13 @@ public class MiniMapCamContr : MonoBehaviour
 {
     public Transform playerTransform;
     private const float CAM_HEIGHT = 10;
-    void Start()
+    public bool jugadorAsignado = false;
+    
+    // Funci�n para asignar el objetivo a la c�mara
+    public void AsignarObjetivo(GameObject jugador)
     {
-        var controladores = FindObjectsOfType<ControladorBola>();
-        foreach (var player in controladores){
-            if (player.IsOwner){
-                playerTransform = player.transform;
-                Debug.Log("ASIGNO!");
-            }
-        }
+        playerTransform = jugador.transform;
+        jugadorAsignado = true;
     }
     private void LateUpdate() {
          if (playerTransform == null) return;

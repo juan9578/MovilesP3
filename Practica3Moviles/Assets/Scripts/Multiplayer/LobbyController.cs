@@ -13,7 +13,7 @@ public class LobbyController : MonoBehaviour
 {
     public static LobbyController instancia;
 
-    // Características del lobby
+    // Caracterï¿½sticas del lobby
     private string _lobbyName = "Fall Balls";
     private const int MAX_PLAYERS = 4;
 
@@ -21,15 +21,15 @@ public class LobbyController : MonoBehaviour
     private Lobby _hostLobby;
     private Lobby _joinedLobby;
 
-    // Código de la sala
+    // Cï¿½digo de la sala
     public string lobbyCode;
-    // Código de relay
+    // Cï¿½digo de relay
     public string relayCode;
 
-    // Variable que indica si se está en el lobby
+    // Variable que indica si se estï¿½ en el lobby
     public bool inLobby = false;
 
-    // Variables encargadas de hacer una pulsación cada cierto tiempo, para que la sala no se destruya por inactividad
+    // Variables encargadas de hacer una pulsaciï¿½n cada cierto tiempo, para que la sala no se destruya por inactividad
     float heartBeatLobbyTimer = 0;
     const int MAX_HEARTBEAT_TIMER = 15;
 
@@ -56,7 +56,7 @@ public class LobbyController : MonoBehaviour
     {
         // Se inicializan los servicios de Unity
         await UnityServices.InitializeAsync();
-        // Se hace un registro anónimo
+        // Se hace un registro anï¿½nimo
         // Se crea un evento para comprobar que se realiza dicho registro
         AuthenticationService.Instance.SignedIn += () =>
         {
@@ -72,14 +72,14 @@ public class LobbyController : MonoBehaviour
         {
             HandleLobbyHeartbeat();
         }
-        // Si se está en un lobby, se debe actualizar cada cierto tiempo
+        // Si se estï¿½ en un lobby, se debe actualizar cada cierto tiempo
         if (inLobby)
         {
             HandleLobbyUpdate();
         }
     }
 
-    // Esta función se utiliza para enviar un mensaje al lobby cada 15 segundos, para evitar que la sala desaparezca por inactividad
+    // Esta funciï¿½n se utiliza para enviar un mensaje al lobby cada 15 segundos, para evitar que la sala desaparezca por inactividad
     private async void HandleLobbyHeartbeat()
     {
         if (_hostLobby != null)
@@ -94,7 +94,7 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    // Esta función se utiliza para actualizar la referencia del lobby
+    // Esta funciï¿½n se utiliza para actualizar la referencia del lobby
     private async void HandleLobbyUpdate()
     {
         updateLobbyTimer += Time.deltaTime;
@@ -107,7 +107,7 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    // Función que devuelve si hay lobbies disponibles para que el jugador pueda unirse
+    // Funciï¿½n que devuelve si hay lobbies disponibles para que el jugador pueda unirse
     public async Task<bool> CheckLobbies()
     {
         await Task.Delay(1000);
@@ -125,7 +125,7 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    // Función que lista las salas que aún admiten jugadores
+    // Funciï¿½n que lista las salas que aï¿½n admiten jugadores
     private async Task<bool> IsLobbyAvailableAsync()
     {
         try
@@ -162,7 +162,7 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    // Función para crear una nueva sala pública, en caso de que no haya ninguna disponible
+    // Funciï¿½n para crear una nueva sala pï¿½blica, en caso de que no haya ninguna disponible
     public async Task CreatePublicLobby()
     {
         // Se definen las propiedades de la sala
@@ -172,19 +172,19 @@ public class LobbyController : MonoBehaviour
             Player = ControladorPersonalizacion.instancia.GetPlayer()
         };
 
-        // Se crea la sala con las características dadas
+        // Se crea la sala con las caracterï¿½sticas dadas
         _hostLobby = await LobbyService.Instance.CreateLobbyAsync(_lobbyName, MAX_PLAYERS, createLobbyOptions);
         _joinedLobby = _hostLobby;
         Debug.Log("Created Lobby! " + _hostLobby.LobbyCode);
         lobbyCode = _joinedLobby.LobbyCode;
 
-        // Se crea el punto de Relay para que se conecten los demás clientes
+        // Se crea el punto de Relay para que se conecten los demï¿½s clientes
         // Se espera a que se cree para continuar
         await RelayManager.Instance.CreateRelay(MAX_PLAYERS);
         // Una vez creado se obtiene la clave
         relayCode = RelayManager.Instance.joinCode;
 
-        // Se guarda dicha información en la sala
+        // Se guarda dicha informaciï¿½n en la sala
         Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>
         {
             { "relayCode", new DataObject(DataObject.VisibilityOptions.Member, relayCode) },
@@ -192,7 +192,7 @@ public class LobbyController : MonoBehaviour
 
         try
         {
-            // Actualizar el lobby de manera asincrónica
+            // Actualizar el lobby de manera asincrï¿½nica
             var updateLobbyTask = LobbyService.Instance.UpdateLobbyAsync(_hostLobby.Id, new UpdateLobbyOptions { Data = lobbyData });
             _joinedLobby = await updateLobbyTask;
 
@@ -207,7 +207,7 @@ public class LobbyController : MonoBehaviour
         inLobby = true;
     }
 
-    // Función para unirse a una sala pública, ya que, previamente se habrá comprobado que haya alguna disponible
+    // Funciï¿½n para unirse a una sala pï¿½blica, ya que, previamente se habrï¿½ comprobado que haya alguna disponible
     public async Task<bool> QuickJoinLobbyAsync()
     {
         try
@@ -217,7 +217,7 @@ public class LobbyController : MonoBehaviour
                 Player = ControladorPersonalizacion.instancia.GetPlayer()
             };
 
-            // Llamada para unirse automáticamente a la primera sala pública disponible
+            // Llamada para unirse automï¿½ticamente a la primera sala pï¿½blica disponible
             var quickJoinTask = LobbyService.Instance.QuickJoinLobbyAsync(quickJoinLobbyOptions);
             var quickJoinResult = await quickJoinTask;
 
@@ -232,17 +232,18 @@ public class LobbyController : MonoBehaviour
             Debug.Log("Successfully joined a public lobby: " + _joinedLobby.LobbyCode);
             lobbyCode = _joinedLobby.LobbyCode;
             inLobby = true;
-            // Una vez se une al lobby, se obtiene el código de relay para establecer la conexión
+            // Una vez se une al lobby, se obtiene el cï¿½digo de relay para establecer la conexiï¿½n
             relayCode = _joinedLobby.Data["relayCode"].Value;
-
+Debug.Log("AQUI" + _joinedLobby.LobbyCode);
             // Se une al servidor
             RelayManager.Instance.JoinRelay(relayCode);
+            Debug.Log("AQUI22" + _joinedLobby.LobbyCode);
             return true; // Indica que el unirse fue exitoso
         }
         catch (Exception ex)
         {
             Debug.LogError("Error in QuickJoin: " + ex.Message);
-            return false; // Manejo de errores si ocurre alguna excepción
+            return false; // Manejo de errores si ocurre alguna excepciï¿½n
         }
     }
 
@@ -255,19 +256,19 @@ public class LobbyController : MonoBehaviour
             Player = ControladorPersonalizacion.instancia.GetPlayer()
         };
 
-        // Se crea la sala con las características dadas
+        // Se crea la sala con las caracterï¿½sticas dadas
         _hostLobby = await LobbyService.Instance.CreateLobbyAsync(_lobbyName, MAX_PLAYERS, createLobbyOptions);
         _joinedLobby = _hostLobby;
         Debug.Log("Created Lobby! " + _hostLobby.LobbyCode);
         lobbyCode = _joinedLobby.LobbyCode;
 
-        // Se crea el punto de Relay para que se conecten los demás clientes
+        // Se crea el punto de Relay para que se conecten los demï¿½s clientes
         // Se espera a que se cree para continuar
         await RelayManager.Instance.CreateRelay(MAX_PLAYERS);
         // Una vez creado se obtiene la clave
         relayCode = RelayManager.Instance.joinCode;
 
-        // Se guarda dicha información en la sala
+        // Se guarda dicha informaciï¿½n en la sala
         Dictionary<string, DataObject> lobbyData = new Dictionary<string, DataObject>
         {
             { "relayCode", new DataObject(DataObject.VisibilityOptions.Member, relayCode) },
@@ -275,7 +276,7 @@ public class LobbyController : MonoBehaviour
 
         try
         {
-            // Actualizar el lobby de manera asincrónica
+            // Actualizar el lobby de manera asincrï¿½nica
             var updateLobbyTask = LobbyService.Instance.UpdateLobbyAsync(_hostLobby.Id, new UpdateLobbyOptions { Data = lobbyData });
             _joinedLobby = await updateLobbyTask;
 
@@ -294,44 +295,44 @@ public class LobbyController : MonoBehaviour
     {
         try
         {
-            // Se crea un jugador con las características correspondientes
+            // Se crea un jugador con las caracterï¿½sticas correspondientes
             JoinLobbyByCodeOptions options = new JoinLobbyByCodeOptions
             {
                 Player = ControladorPersonalizacion.instancia.GetPlayer()
             };
 
-            // Intentar unirse al lobby usando el código
+            // Intentar unirse al lobby usando el cï¿½digo
             var joinLobbyTask = Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode, options);
-            var joinedLobby = await joinLobbyTask; // Espera a que se complete la operación de unión
+            var joinedLobby = await joinLobbyTask; // Espera a que se complete la operaciï¿½n de uniï¿½n
 
             // Si el lobby fue encontrado
             _joinedLobby = joinedLobby;
             lobbyCode = _joinedLobby.LobbyCode;
             Debug.Log("Joined Lobby with code: " + lobbyCode);
 
-            // Una vez se une al lobby, se obtiene el código de relay para establecer la conexión
+            // Una vez se une al lobby, se obtiene el cï¿½digo de relay para establecer la conexiï¿½n
             relayCode = _joinedLobby.Data["relayCode"].Value;
 
             // Se une al servidor
             RelayManager.Instance.JoinRelay(relayCode);
 
             inLobby = true;
-            onComplete(true); // Indicar éxito
+            onComplete(true); // Indicar ï¿½xito
 
-            return true; // Devolver verdadero si la operación fue exitosa
+            return true; // Devolver verdadero si la operaciï¿½n fue exitosa
         }
         catch (Exception ex)
         {
-            // Si ocurrió un error durante el proceso
+            // Si ocurriï¿½ un error durante el proceso
             if (ex is LobbyServiceException lobbyException)
             {
                 if (lobbyException.Reason == LobbyExceptionReason.LobbyNotFound)
                 {
-                    Debug.Log("No se ha encontrado ninguna sala con dicho código");
+                    Debug.Log("No se ha encontrado ninguna sala con dicho cï¿½digo");
                 }
                 else if (lobbyException.Reason == LobbyExceptionReason.LobbyFull)
                 {
-                    Debug.Log("La sala a la que se intenta acceder está llena");
+                    Debug.Log("La sala a la que se intenta acceder estï¿½ llena");
                 }
             }
             else
@@ -344,32 +345,32 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    // Función para obtener los datos de los jugadores en el lobby y poder mostrarlos
+    // Funciï¿½n para obtener los datos de los jugadores en el lobby y poder mostrarlos
     public Dictionary<string, List<string>> GetPlayersInLobby()
     {
         // Se crea un diccionario de listas de strings, para almacenar los nombres y los personajes escogidos por los jugadores
         Dictionary<string, List<string>> datosPlayers = new Dictionary<string, List<string>>();
-        // Se crea la lista de personajes y se van añadiendo los personajes de cada uno de los jugadores
+        // Se crea la lista de personajes y se van aï¿½adiendo los personajes de cada uno de los jugadores
         List<string> personajes = new List<string>();
         foreach (Player p in _joinedLobby.Players)
         {
             personajes.Add(p.Data["Character"].Value);
         }
-        // Se añade la lista al diccionario
+        // Se aï¿½ade la lista al diccionario
         datosPlayers.Add("Characters", personajes);
-        // Se crea la lista de nombres y se van añadiendo los nombres de cada uno de los jugadores
+        // Se crea la lista de nombres y se van aï¿½adiendo los nombres de cada uno de los jugadores
         List<string> nombres = new List<string>();
         foreach (Player p in _joinedLobby.Players)
         {
             nombres.Add(p.Data["Name"].Value);
         }
-        // Se añade la lista al diccionario
+        // Se aï¿½ade la lista al diccionario
         datosPlayers.Add("Nombres", nombres);
 
         return datosPlayers;
     }
 
-    // Función para abandonar la sala
+    // Funciï¿½n para abandonar la sala
     public async void LeaveLobby()
     {
         await LobbyService.Instance.RemovePlayerAsync(_joinedLobby.Id, AuthenticationService.Instance.PlayerId);

@@ -16133,7 +16133,7 @@ GameObject:
   - component: {fileID: 1603128443}
   m_Layer: 0
   m_Name: MMCamera
-  m_TagString: Untagged
+  m_TagString: MMCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16151,6 +16151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1615732014}
+  objetivo: {fileID: 0}
+  jugadorAsignado: 0
 --- !u!20 &1603128444
 Camera:
   m_ObjectHideFlags: 0
@@ -19439,7 +19441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23429158, g: 0.4540557, b: 0.6132076, a: 1}
+  m_Color: {r: 0.05197579, g: 0.109706864, b: 0.1509434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
