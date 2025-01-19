@@ -53,13 +53,12 @@ public class MenuLobby : MonoBehaviour
         // Para ello, se obtiene toda la información de los jugadores del lobby
         Dictionary<string, List<string>> datosJugadores = LobbyController.instancia.GetPlayersInLobby();
         datosJugadores.TryGetValue("Nombres", out List<string> nombres);
-        datosJugadores.TryGetValue("Characters", out List<string> personajes);
         int numJugadores = nombres.Count;
 
         // Se muestra el nombre de los jugadores conectados al lobby
         for (int i = 0; i < numJugadores; i++)
         {
-            nombresJugadores[i].text = nombres[i] + " : " + personajes[i];
+            nombresJugadores[i].text = nombres[i];
         }
         // Se limpia el nombre de los huecos sin asignar
         for (int i = numJugadores; i < MAX_JUGADORES; i++)
