@@ -465,7 +465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  objetivo: {fileID: 0}
   jugadorAsignado: 0
 --- !u!20 &141301334
 Camera:
@@ -2381,7 +2380,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7cb358c0f1f4dc9458af65e993e0338e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5d27856b47c50b843ac34aa364dae1f7, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.263
   m_Pitch: 1
