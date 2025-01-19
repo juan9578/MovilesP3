@@ -1,45 +1,38 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ControladorBrillo : MonoBehaviour
 {
     public Slider sliderBrillo; // El slider de brillo
-    private Material globalMaterial; // Material global (puedes usar un shader para efectos de brillo)
+    public Image brillo;
     private const string clave = "Brightness"; // Clave para guardar el brillo en PlayerPrefs
+
 
     private void Start()
     {
         // Busca automáticamente el slider si no está asignado
-        if (sliderBrillo == null)
+        if (SceneManager.GetActiveScene().name == "Inicio")
         {
-            sliderBrillo = GameObject.Find("BrightnessSlider").GetComponent<Slider>();
+            // Cargar el valor guardado o usar un valor predeterminado
+            float savedBrightness = PlayerPrefs.GetFloat(clave, 1.0f); // Por defecto, el brillo es 1.0
+            sliderBrillo.value = savedBrightness;
+            sliderBrillo.onValueChanged.AddListener(AdjustBrightness);
+            // Ajustar el brillo inicial
+            AdjustBrightness(savedBrightness);
+
         }
-
-        // Cargar el valor guardado o usar un valor predeterminado
-        float savedBrightness = PlayerPrefs.GetFloat(clave, 1.0f); // Por defecto, el brillo es 1.0
-        sliderBrillo.value = savedBrightness;
-
-        // Configura el evento para escuchar cambios en el slider
-        sliderBrillo.onValueChanged.AddListener(AdjustBrightness);
-
-        // Configura un material global (opcional, puedes usar un Light en lugar de esto)
-        globalMaterial = RenderSettings.skybox; // Ejemplo: usa el Skybox como material global
-
-        // Ajustar el brillo inicial
-        AdjustBrightness(savedBrightness);
+        else
+        {
+            float savedBrightness = PlayerPrefs.GetFloat(clave, 1.0f);
+            AdjustBrightness(savedBrightness);
+        }
     }
 
     // Ajusta el brillo según el valor del slider y lo guarda
     public void AdjustBrightness(float value)
     {
-        // Cambiar el brillo global del material
-        if (globalMaterial != null)
-        {
-            globalMaterial.SetFloat("_Exposure", value); // Cambia el brillo global del material
-        }
-
-        // Alternativa: Cambiar la intensidad de una luz ambiental
-        RenderSettings.ambientIntensity = value;
+        brillo.color = new Color(brillo.color.r, brillo.color.g, brillo.color.b, 1 - value);
 
         // Guardar el valor en PlayerPrefs
         PlayerPrefs.SetFloat(clave, value);
