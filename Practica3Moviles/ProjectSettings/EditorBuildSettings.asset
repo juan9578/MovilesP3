@@ -9,17 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Inicio.unity
     guid: 24af3be14cd15164c805a98c2529292b
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
-    guid: c850ee8c3b14cc8459e7e186857cf567
-  - enabled: 1
     path: Assets/Scenes/Laberinto1.unity
     guid: 7981fb6ca181c584fb98dbc185f7b7c8
   - enabled: 1
     path: Assets/Scenes/Laberinto2.unity
-    guid: a259d862feeab7940885177e353d3682
+    guid: 9f341c9200f2bfc4791c85e0a9ff8bcd
   - enabled: 1
     path: Assets/Scenes/Laberinto3.unity
-    guid: 1c997566564b2e445a01f163ce12ddd3
+    guid: aace130ba7cef684fa99662e0ca65c5b
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 2d1ed10a4ba38db4aa0b86eff0a6fe78,
       type: 2}

@@ -41,6 +41,7 @@ public class MenuSkin : MonoBehaviour
     // Método para avanzar al siguiente escenario
     public void SiguienteSkin()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indiceSkinActual = (indiceSkinActual + 1) % imagenesSkins.Length;
         ActualizarImagenSkin();
     }
@@ -48,6 +49,7 @@ public class MenuSkin : MonoBehaviour
     // Método para retroceder al escenario anterior
     public void AnteriorSkin()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indiceSkinActual--;
         if (indiceSkinActual < 0)
         {
@@ -127,6 +129,7 @@ public class MenuSkin : MonoBehaviour
 
     public async void ConfirmarSeleccion()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         if (skinBloqueada) return;
         ControladorPersonalizacion.instancia.personajeSeleccionado = indiceSkinActual;
         switch(MenuInicial.instancia.indicePantallaAnterior)

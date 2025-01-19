@@ -105,6 +105,7 @@ public class GestorPartidas : NetworkBehaviour
 
     public void EsperaJugador()
     {
+        ControladorMusica.instancia.MusicaVictoria();
         juegoTerminado = true;
         panelPartida.SetActive(false);
         panelEspera.SetActive(true);
@@ -150,6 +151,10 @@ public class GestorPartidas : NetworkBehaviour
     [ClientRpc]
     public void MostrarResultadosClientRpc(int[] jugadores, float[] tiempos, int[] puntuaciones, int numJugadores)
     {
+        if(!juegoTerminado)
+        {
+            ControladorMusica.instancia.MusicaVictoria();
+        }
         minimapa.SetActive(false);
         juegoTerminado = true;
         MostrarResultados(jugadores, tiempos, puntuaciones, numJugadores);

@@ -25,6 +25,7 @@ public class MenuSeleccion : MonoBehaviour
     // Método para avanzar al siguiente escenario
     public void SiguienteEscenario()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indiceEscenarioActual = (indiceEscenarioActual + 1) % imagenesEscenarios.Length;
         ActualizarImagenEscenario();
     }
@@ -32,6 +33,7 @@ public class MenuSeleccion : MonoBehaviour
     // Método para retroceder al escenario anterior
     public void AnteriorEscenario()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indiceEscenarioActual--;
         if (indiceEscenarioActual < 0)
         {

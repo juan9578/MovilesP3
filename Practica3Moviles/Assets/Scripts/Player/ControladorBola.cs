@@ -78,7 +78,14 @@ public class ControladorBola : NetworkBehaviour
             _rb.isKinematic = true;
             // Se indica que un jugador m�s ha llegado a la meta
             GestorPartidas.instance.JugadorMeta((int)OwnerClientId, GestorPartidas.instance.temporizador);
+        }
+    }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Laberinto"))
+        {
+            ControladorEfectosSonido.instancia.SonidoColision();
         }
     }
 

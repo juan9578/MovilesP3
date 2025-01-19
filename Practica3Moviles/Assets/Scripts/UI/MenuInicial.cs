@@ -13,7 +13,6 @@ public class MenuInicial : MonoBehaviour
     public bool tutorialIniciado = false;
 
     public GameObject panelBienvenida;
-    public GameObject minimapa;
     public GameObject panelTutorial;
     public GameObject panelInicio;
     public GameObject panelConfiguracion;
@@ -35,8 +34,6 @@ public class MenuInicial : MonoBehaviour
 
     public string codigoInvitacion;
 
-    public AudioSource musicAudioSource; // Fuente de audio para la m�sica
-    public AudioSource soundEffectsAudioSource; // Fuente de audio para los efectos de sonido
     public Toggle musicToggle; // Toggle para la m�sica
     public Toggle soundEffectsToggle; // Toggle para los efectos de sonido
 
@@ -94,20 +91,18 @@ public class MenuInicial : MonoBehaviour
         }
 
         // Inicializa los toggles seg�n los valores guardados
-        if (musicToggle != null && musicAudioSource != null)
+        if (musicToggle != null)
         {
             bool isMusicEnabled = PlayerPrefs.GetInt(MusicPrefKey, 1) == 1; // Por defecto, la m�sica est� activada
             musicToggle.isOn = isMusicEnabled;
-            musicAudioSource.mute = !isMusicEnabled;
 
             musicToggle.onValueChanged.AddListener(ToggleMusic);
         }
 
-        if (soundEffectsToggle != null && soundEffectsAudioSource != null)
+        if (soundEffectsToggle != null)
         {
             bool areSoundEffectsEnabled = PlayerPrefs.GetInt(SoundEffectsPrefKey, 1) == 1; // Por defecto, los efectos de sonido est�n activados
             soundEffectsToggle.isOn = areSoundEffectsEnabled;
-            soundEffectsAudioSource.mute = !areSoundEffectsEnabled;
 
             soundEffectsToggle.onValueChanged.AddListener(ToggleSoundEffects);
         }
@@ -116,27 +111,21 @@ public class MenuInicial : MonoBehaviour
     // Activar/desactivar m�sica
     public void ToggleMusic(bool isOn)
     {
-        if (musicAudioSource != null)
-        {
-            musicAudioSource.mute = !isOn;
-
-            // Guardar el estado de la m�sica
-            PlayerPrefs.SetInt(MusicPrefKey, isOn ? 1 : 0);
-            PlayerPrefs.Save();
-        }
+        ControladorMusica.instancia.musicaActivada = isOn;
+        // Guardar el estado de la m�sica
+        PlayerPrefs.SetInt(MusicPrefKey, isOn ? 1 : 0);
+        PlayerPrefs.Save();
+        ControladorEfectosSonido.instancia.SonidoClick();
     }
 
     // Activar/desactivar efectos de sonido
     public void ToggleSoundEffects(bool isOn)
     {
-        if (soundEffectsAudioSource != null)
-        {
-            soundEffectsAudioSource.mute = !isOn;
-
-            // Guardar el estado de los efectos de sonido
-            PlayerPrefs.SetInt(SoundEffectsPrefKey, isOn ? 1 : 0);
-            PlayerPrefs.Save();
-        }
+        ControladorEfectosSonido.instancia.efectosActivados = isOn;
+        // Guardar el estado de los efectos de sonido
+        PlayerPrefs.SetInt(SoundEffectsPrefKey, isOn ? 1 : 0);
+        PlayerPrefs.Save();
+        ControladorEfectosSonido.instancia.SonidoClick();
     }
 
     // M�todo para iniciar el tutorial
@@ -144,28 +133,28 @@ public class MenuInicial : MonoBehaviour
     {
         if (ControladorPersonalizacion.instancia.nombreJugador == "") return;
         tutorialIniciado = true;
-        minimapa.SetActive(true);
         panelInicio.SetActive(false);
         panelBienvenida.SetActive(false);
         panelTutorial.SetActive(true);
+        ControladorEfectosSonido.instancia.SonidoClick();
     }
 
     // M�todo para terminar el tutorial y pasar al menu
     public void IrMenu()
     {
         tutorialIniciado = false;
-        minimapa.SetActive(false);
         panelInicio.SetActive(true);
         panelTutorial.SetActive(false);
         jugadorTutorial.transform.position = posicionJugadorTutorial;
+        ControladorEfectosSonido.instancia.SonidoClick();
     }
 
     // M�todo para cambiar de panel y mostrar el panel de selecci�n
     public void Comenzar()
     {
         panelInicio.SetActive(false);
-        // panelSeleccion.SetActive(true); // Muestra el nuevo panel
         panelPartida.SetActive(true);
+        ControladorEfectosSonido.instancia.SonidoClick();
     }
 
     // M�todo para mostrar el men� de configuraci�n
@@ -173,23 +162,27 @@ public class MenuInicial : MonoBehaviour
     {
         panelConfiguracion.SetActive(true);
         panelInicio.SetActive(false);
+        ControladorEfectosSonido.instancia.SonidoClick();
     }
 
     // M�todo para salir del juego
     public void QuitGame()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         Debug.Log("Saliendo del juego...");
         Application.Quit();
     }
 
     public void MostrarRanking()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         panelPartida.SetActive(false);
         panelRanking.SetActive(true);
     }
 
     public void MostrarPanelSkins(int panelAnterior)
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indicePantallaAnterior = panelAnterior;
         panelPartida.SetActive(false);
         panelPrivado.SetActive(false);
@@ -200,6 +193,7 @@ public class MenuInicial : MonoBehaviour
     // M�todo para buscar una partida
     public async Task BuscarPartida()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         // Primero se comprueba si hay salas disponibles
         bool lobbyDisponible = await LobbyController.instancia.CheckLobbies();
         // Si hay salas disponibles, se une a la primera que haya
@@ -221,6 +215,7 @@ public class MenuInicial : MonoBehaviour
     // M�todo para pasar al men� de invitaci�n de amigos
     public void MostrarPanelInvitacion()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         panelPartida.SetActive(false);
         panelPrivado.SetActive(true);
     }
@@ -228,6 +223,7 @@ public class MenuInicial : MonoBehaviour
     // M�todo para crear una sala privada
     public async Task CrearSalaPrivada()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         await LobbyController.instancia.CreatePrivateLobby();
 
         panelSkins.SetActive(false);
@@ -241,6 +237,7 @@ public class MenuInicial : MonoBehaviour
     // M�todo para mostrar el panel de contrase�a
     public void MostrarPanelClave()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         panelPrivado.SetActive(false);
         panelClave.SetActive(true);
     }
@@ -254,6 +251,7 @@ public class MenuInicial : MonoBehaviour
     // M�todo para unirse a una sala privada, con una contrase�a
     public async Task EntrarSalaPrivada()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         bool unidoSala = false;
         await LobbyController.instancia.JoinPrivateLobby(codigoInvitacion, (exito) => unidoSala = exito);
         if (!unidoSala)
@@ -271,7 +269,8 @@ public class MenuInicial : MonoBehaviour
     // M�todo para volver entre pantallas
     public void Volver()
     {
-        if(panelConfiguracion.activeSelf)
+        ControladorEfectosSonido.instancia.SonidoClick();
+        if (panelConfiguracion.activeSelf)
         {
             panelConfiguracion.SetActive(false);
             panelInicio.SetActive(true);
@@ -306,6 +305,7 @@ public class MenuInicial : MonoBehaviour
     // M�todo para abandonar el lobby
     public void AbandonarSala()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         // Se avisa a los clientes de que el Host ha abandonado la sala
         ServerPlayerManager.instance.AbandonarSala();
         LobbyController.instancia.LeaveLobby();

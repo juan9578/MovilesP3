@@ -43,4 +43,12 @@ public class ControladorTutorial : MonoBehaviour
             MenuInicial.instancia.botonTutorial.SetActive(true);
         }
     }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Laberinto"))
+        {
+            ControladorEfectosSonido.instancia.SonidoColision();
+        }
+    }
 }
