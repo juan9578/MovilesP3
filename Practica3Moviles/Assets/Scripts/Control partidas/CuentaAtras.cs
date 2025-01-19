@@ -25,6 +25,7 @@ public class CuentaAtras : MonoBehaviour
         yield return new WaitForSeconds(1f);
         temporizador.text = "";
         GestorPartidas.instance.panelPartida.SetActive(true);
+        GestorPartidas.instance.minimapa.SetActive(true);
         gameObject.SetActive(false);
     }
 }

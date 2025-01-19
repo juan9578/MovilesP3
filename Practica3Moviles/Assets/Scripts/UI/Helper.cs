@@ -7,23 +7,20 @@ public class Helper : NetworkBehaviour
 {
     private Transform playerTransform;
     public Transform goal;
+    public bool objetivoAsignado = false;
     public Image proximityImage;
     public Color coldColor = Color.blue; // Color para "frío"
     public Color hotColor = Color.red; // Color para "caliente"
     public float maxDistance = 20f; // Distancia máxima para medir la proximidad
 
-    private void Start() {
-        var controladores = FindObjectsOfType<ControladorBola>();
-        foreach (var player in controladores){
-            if (player.IsOwner){
-                playerTransform = player.transform;
-            }
-        }
+    public void AsignarObjetivo (GameObject objetivo)
+    {
+        objetivoAsignado = true;
+        playerTransform = objetivo.transform;
     }
     void Update()
     {
-        // Solo el jugador local debe actualizar su UI
-        if (!IsOwner) return;
+        if (!objetivoAsignado || playerTransform == null) return;
         // Calcula la distancia entre la bola y la meta
         float distance = Vector3.Distance(playerTransform.position, goal.position);
         // Normaliza la distancia en un rango de 0 a 1

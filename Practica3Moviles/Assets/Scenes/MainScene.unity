@@ -991,7 +991,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  objetivo: {fileID: 0}
   jugadorAsignado: 0
 --- !u!20 &1737997333
 Camera:

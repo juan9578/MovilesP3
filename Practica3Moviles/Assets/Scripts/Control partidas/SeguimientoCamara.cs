@@ -10,7 +10,7 @@ public class SeguimientoCamara : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!jugadorAsignado) return;
+        if (!jugadorAsignado || objetivo == null) return;
         transform.position = objetivo.transform.position + offset;
     }
 

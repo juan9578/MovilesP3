@@ -36,6 +36,8 @@ public class GestorPartidas : NetworkBehaviour
     public int[] puntuacionesJugadores = new int[4];
     public int[] puntuacionesFijadas;
 
+    public GameObject minimapa;
+
     private void Awake()
     {
         if (instance == null)
@@ -54,16 +56,6 @@ public class GestorPartidas : NetworkBehaviour
 
         temporizador += Time.deltaTime;
         ActualizarTemporizador();
-        /*
-        if (IsServer)
-        {
-            // Comprueba si han llegado todos los jugadores a la meta, a excepción del último
-            if (numJugadoresMeta == NetworkManager.Singleton.ConnectedClients.Count - 1)
-            {
-
-            }
-        }
-        */
 
     }
 
@@ -79,15 +71,16 @@ public class GestorPartidas : NetworkBehaviour
     {
         if (jugadoresAñadidos.Contains(clientID)) return;
         jugadoresAñadidos.Add(clientID);
-
+        minimapa.SetActive(false);
         jugadoresLlegados[numJugadoresMeta] = clientID;
         tiemposJugadores[numJugadoresMeta] = tiempo;
         numJugadoresMeta++;
         // Comprueba si han llegado todos los jugadores a la meta, a excepción del último
-        if (numJugadoresMeta == NetworkManager.Singleton.ConnectedClients.Count)
+        if (numJugadoresMeta == NetworkManager.Singleton.ConnectedClients.Count - 1)
         {
+            UltimoJugador();
             CalcularPuntuaciones();
-            MostrarResultadosClientRpc(jugadoresLlegados, tiemposJugadores, puntuacionesJugadores);
+            MostrarResultadosClientRpc(jugadoresLlegados, tiemposJugadores, puntuacionesJugadores, numJugadoresMeta);
         }
         else
         {
@@ -96,7 +89,8 @@ public class GestorPartidas : NetworkBehaviour
 
     }
 
-    [ClientRpc] 
+
+    [ClientRpc]
     public void MostrarEsperaClientRpc(int clientID)
     {
         if (idCliente == clientID)
@@ -128,6 +122,20 @@ public class GestorPartidas : NetworkBehaviour
         avisoJugadorFondo.SetActive(false);
     }
 
+    public void UltimoJugador()
+    {
+        for (int i = 0; i < NetworkManager.Singleton.ConnectedClients.Count; i++)
+        {
+            int id = (int)NetworkManager.Singleton.ConnectedClients[(ulong)i].ClientId;
+            if (!jugadoresAñadidos.Contains(id))
+            {
+                jugadoresLlegados[numJugadoresMeta] = id;
+                tiemposJugadores[numJugadoresMeta] = 0;
+                numJugadoresMeta++;
+            }
+        }
+    }
+
     public void CalcularPuntuaciones()
     {
         int desfase = puntuacionesFijadas.Length - NetworkManager.Singleton.ConnectedClients.Count;
@@ -140,12 +148,13 @@ public class GestorPartidas : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void MostrarResultadosClientRpc(int[] jugadores, float[] tiempos, int[] puntuaciones)
+    public void MostrarResultadosClientRpc(int[] jugadores, float[] tiempos, int[] puntuaciones, int numJugadores)
     {
+        minimapa.SetActive(false);
         juegoTerminado = true;
-        MostrarResultados(jugadores, tiempos, puntuaciones);
+        MostrarResultados(jugadores, tiempos, puntuaciones, numJugadores);
     }
-    public void MostrarResultados(int[] jugadores, float[] tiempos, int[] puntuaciones)
+    public void MostrarResultados(int[] jugadores, float[] tiempos, int[] puntuaciones, int numJugadores)
     {
         panelPartida.SetActive(false);
         panelEspera.SetActive(false);
@@ -155,13 +164,18 @@ public class GestorPartidas : NetworkBehaviour
         Dictionary<string, List<string>> datosJugadores = LobbyController.instancia.GetPlayersInLobby();
         datosJugadores.TryGetValue("Nombres", out List<string> nombres);
 
-        for (int i = 0; i < jugadores.Length; i++)
+        for (int i = 0; i < numJugadores; i++)
         {
-            if (tiempos[i] == 0) break;
-            int minutos = Mathf.FloorToInt(tiempos[i] / 60); 
-            int segundos = Mathf.FloorToInt(tiempos[i] % 60); 
-            posiciones[i].text = (i+1).ToString() + "º - " + nombres[jugadores[i]] + " -> " + $"{minutos:00}:{segundos:00}";
-
+            if (tiempos[i] == 0)
+            {
+                posiciones[i].text = (i + 1).ToString() + "º - " + nombres[jugadores[i]] + " -> " + "------";
+            }
+            else
+            {
+                int minutos = Mathf.FloorToInt(tiempos[i] / 60);
+                int segundos = Mathf.FloorToInt(tiempos[i] % 60);
+                posiciones[i].text = (i + 1).ToString() + "º - " + nombres[jugadores[i]] + " -> " + $"{minutos:00}:{segundos:00}";
+            }
             if (jugadores[i] == idCliente)
             {
                 puntuacionAsignada = puntuaciones[i];
