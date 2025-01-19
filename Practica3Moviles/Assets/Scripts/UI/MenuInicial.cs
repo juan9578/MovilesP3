@@ -13,6 +13,7 @@ public class MenuInicial : MonoBehaviour
     public bool tutorialIniciado = false;
 
     public GameObject panelBienvenida;
+    public GameObject minimapa;
     public GameObject panelTutorial;
     public GameObject panelInicio;
     public GameObject panelConfiguracion;
@@ -23,7 +24,7 @@ public class MenuInicial : MonoBehaviour
     public GameObject panelClave;
     public GameObject panelLobby;
     public GameObject claveLobby;
-    public GameObject panelSeleccion; // Nuevo panel de selección
+    public GameObject panelSeleccion; // Nuevo panel de selecciï¿½n
 
     public GameObject botonTutorial;
     public GameObject jugadorTutorial;
@@ -34,14 +35,14 @@ public class MenuInicial : MonoBehaviour
 
     public string codigoInvitacion;
 
-    public AudioSource musicAudioSource; // Fuente de audio para la música
+    public AudioSource musicAudioSource; // Fuente de audio para la mï¿½sica
     public AudioSource soundEffectsAudioSource; // Fuente de audio para los efectos de sonido
-    public Toggle musicToggle; // Toggle para la música
+    public Toggle musicToggle; // Toggle para la mï¿½sica
     public Toggle soundEffectsToggle; // Toggle para los efectos de sonido
 
-    public int indicePantallaAnterior = 0; // Indice para manejar qué función utilizar al seleccionar el personaje
+    public int indicePantallaAnterior = 0; // Indice para manejar quï¿½ funciï¿½n utilizar al seleccionar el personaje
 
-    private const string MusicPrefKey = "MusicEnabled"; // Clave para guardar el estado de la música
+    private const string MusicPrefKey = "MusicEnabled"; // Clave para guardar el estado de la mï¿½sica
     private const string SoundEffectsPrefKey = "SoundEffectsEnabled"; // Clave para guardar el estado de los efectos de sonido
 
     private void Awake()
@@ -69,11 +70,11 @@ public class MenuInicial : MonoBehaviour
                     break;
                 case 1:
                     claveLobby.SetActive(true);
-                    claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + LobbyController.instancia.lobbyCode;
+                    claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIï¿½N \n" + LobbyController.instancia.lobbyCode;
                     break;
                 case 2:
                     claveLobby.SetActive(true);
-                    claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + LobbyController.instancia.lobbyCode;
+                    claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIï¿½N \n" + LobbyController.instancia.lobbyCode;
                     break;
             }
         }
@@ -92,10 +93,10 @@ public class MenuInicial : MonoBehaviour
             }
         }
 
-        // Inicializa los toggles según los valores guardados
+        // Inicializa los toggles segï¿½n los valores guardados
         if (musicToggle != null && musicAudioSource != null)
         {
-            bool isMusicEnabled = PlayerPrefs.GetInt(MusicPrefKey, 1) == 1; // Por defecto, la música está activada
+            bool isMusicEnabled = PlayerPrefs.GetInt(MusicPrefKey, 1) == 1; // Por defecto, la mï¿½sica estï¿½ activada
             musicToggle.isOn = isMusicEnabled;
             musicAudioSource.mute = !isMusicEnabled;
 
@@ -104,7 +105,7 @@ public class MenuInicial : MonoBehaviour
 
         if (soundEffectsToggle != null && soundEffectsAudioSource != null)
         {
-            bool areSoundEffectsEnabled = PlayerPrefs.GetInt(SoundEffectsPrefKey, 1) == 1; // Por defecto, los efectos de sonido están activados
+            bool areSoundEffectsEnabled = PlayerPrefs.GetInt(SoundEffectsPrefKey, 1) == 1; // Por defecto, los efectos de sonido estï¿½n activados
             soundEffectsToggle.isOn = areSoundEffectsEnabled;
             soundEffectsAudioSource.mute = !areSoundEffectsEnabled;
 
@@ -112,14 +113,14 @@ public class MenuInicial : MonoBehaviour
         }
     }
 
-    // Activar/desactivar música
+    // Activar/desactivar mï¿½sica
     public void ToggleMusic(bool isOn)
     {
         if (musicAudioSource != null)
         {
             musicAudioSource.mute = !isOn;
 
-            // Guardar el estado de la música
+            // Guardar el estado de la mï¿½sica
             PlayerPrefs.SetInt(MusicPrefKey, isOn ? 1 : 0);
             PlayerPrefs.Save();
         }
@@ -138,26 +139,28 @@ public class MenuInicial : MonoBehaviour
         }
     }
 
-    // Método para iniciar el tutorial
+    // Mï¿½todo para iniciar el tutorial
     public void IniciarTutorial(bool primeraVez)
     {
         if (ControladorPersonalizacion.instancia.nombreJugador == "") return;
         tutorialIniciado = true;
+        minimapa.SetActive(true);
         panelInicio.SetActive(false);
         panelBienvenida.SetActive(false);
         panelTutorial.SetActive(true);
     }
 
-    // Método para terminar el tutorial y pasar al menu
+    // Mï¿½todo para terminar el tutorial y pasar al menu
     public void IrMenu()
     {
         tutorialIniciado = false;
+        minimapa.SetActive(false);
         panelInicio.SetActive(true);
         panelTutorial.SetActive(false);
         jugadorTutorial.transform.position = posicionJugadorTutorial;
     }
 
-    // Método para cambiar de panel y mostrar el panel de selección
+    // Mï¿½todo para cambiar de panel y mostrar el panel de selecciï¿½n
     public void Comenzar()
     {
         panelInicio.SetActive(false);
@@ -165,14 +168,14 @@ public class MenuInicial : MonoBehaviour
         panelPartida.SetActive(true);
     }
 
-    // Método para mostrar el menú de configuración
+    // Mï¿½todo para mostrar el menï¿½ de configuraciï¿½n
     public void MostrarConfiguracion()
     {
         panelConfiguracion.SetActive(true);
         panelInicio.SetActive(false);
     }
 
-    // Método para salir del juego
+    // Mï¿½todo para salir del juego
     public void QuitGame()
     {
         Debug.Log("Saliendo del juego...");
@@ -194,7 +197,7 @@ public class MenuInicial : MonoBehaviour
         panelSkins.SetActive(true);
     }
 
-    // Método para buscar una partida
+    // Mï¿½todo para buscar una partida
     public async Task BuscarPartida()
     {
         // Primero se comprueba si hay salas disponibles
@@ -215,14 +218,14 @@ public class MenuInicial : MonoBehaviour
         claveLobby.SetActive(false);
     }
 
-    // Método para pasar al menú de invitación de amigos
+    // Mï¿½todo para pasar al menï¿½ de invitaciï¿½n de amigos
     public void MostrarPanelInvitacion()
     {
         panelPartida.SetActive(false);
         panelPrivado.SetActive(true);
     }
 
-    // Método para crear una sala privada
+    // Mï¿½todo para crear una sala privada
     public async Task CrearSalaPrivada()
     {
         await LobbyController.instancia.CreatePrivateLobby();
@@ -232,23 +235,23 @@ public class MenuInicial : MonoBehaviour
         claveLobby.SetActive(true);
 
         // Se muestra la clave del lobby en la pantalla
-        claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + LobbyController.instancia.lobbyCode;
+        claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIï¿½N \n" + LobbyController.instancia.lobbyCode;
     }
 
-    // Método para mostrar el panel de contraseña
+    // Mï¿½todo para mostrar el panel de contraseï¿½a
     public void MostrarPanelClave()
     {
         panelPrivado.SetActive(false);
         panelClave.SetActive(true);
     }
 
-    // Método para introducir la clave de la sala
+    // Mï¿½todo para introducir la clave de la sala
     public void IntroducirClave(string clave)
     {
         codigoInvitacion = clave;
     }
 
-    // Método para unirse a una sala privada, con una contraseña
+    // Mï¿½todo para unirse a una sala privada, con una contraseï¿½a
     public async Task EntrarSalaPrivada()
     {
         bool unidoSala = false;
@@ -262,10 +265,10 @@ public class MenuInicial : MonoBehaviour
         claveLobby.SetActive(true);
 
         // Se muestra la clave del lobby en la pantalla
-        claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIÓN \n" + codigoInvitacion;
+        claveLobby.GetComponent<TMP_Text>().text = "CLAVE DE INVITACIï¿½N \n" + codigoInvitacion;
     }
 
-    // Método para volver entre pantallas
+    // Mï¿½todo para volver entre pantallas
     public void Volver()
     {
         if(panelConfiguracion.activeSelf)
@@ -300,7 +303,7 @@ public class MenuInicial : MonoBehaviour
         }
     }
 
-    // Método para abandonar el lobby
+    // Mï¿½todo para abandonar el lobby
     public void AbandonarSala()
     {
         // Se avisa a los clientes de que el Host ha abandonado la sala

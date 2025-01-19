@@ -6,11 +6,12 @@ TagManager:
   tags:
   - FollowCamera
   - Meta
+  - MMCam
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Map
   - Water
   - UI
   - 
