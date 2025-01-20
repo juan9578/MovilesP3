@@ -97,12 +97,14 @@ public class ConsultaRanking : MonoBehaviour
 
     public void SiguienteRanking()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indiceRankingActual = (indiceRankingActual + 1) % numRankings;
         ActualizarRanking();
     }
 
     public void AnteriorRanking()
     {
+        ControladorEfectosSonido.instancia.SonidoClick();
         indiceRankingActual--;
         if (indiceRankingActual < 0)
         {
@@ -121,7 +123,10 @@ public class ConsultaRanking : MonoBehaviour
         tituloLaberinto.text = titulos[indiceRankingActual];
         for(int i = 0; i < nombresRanking[indiceRankingActual].Count; i++)
         {
-            posicionesRanking[i].text = (i + 1).ToString() + "º " + nombresRanking[indiceRankingActual][i] + "  " + puntuacionesRanking[indiceRankingActual][i];
+            float tiempo = float.Parse(puntuacionesRanking[indiceRankingActual][i]);
+            int minutos = Mathf.FloorToInt(tiempo / 60); 
+            int segundos = Mathf.FloorToInt(tiempo % 60); 
+            posicionesRanking[i].text = (i + 1).ToString() + "º " + nombresRanking[indiceRankingActual][i] + "  " + $"{minutos:00}:{segundos:00}";
         }
     }
 }

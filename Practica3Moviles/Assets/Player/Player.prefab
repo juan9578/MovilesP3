@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c47a063da58ed65498b444ce6e0b31c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidadBola: 10
+  velocidadBola: 50
   direccionMovimiento: {x: 0, y: 0, z: 0}
 --- !u!114 &1330142535492331482
 MonoBehaviour:

@@ -23,7 +23,7 @@ public class ControladorMusica : MonoBehaviour
 
     void Start()
     {
-        int activada = PlayerPrefs.GetInt("MusicEnabled");
+        int activada = PlayerPrefs.GetInt("MusicEnabled", 1);
         if (activada == 1)
         {
             musicaActivada = true;

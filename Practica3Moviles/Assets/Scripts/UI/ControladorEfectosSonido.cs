@@ -23,7 +23,7 @@ public class ControladorEfectosSonido : MonoBehaviour
 
     private void Start()
     {
-        int activada = PlayerPrefs.GetInt("SoundEffectsEnabled");
+        int activada = PlayerPrefs.GetInt("SoundEffectsEnabled", 1);
         if (activada == 1)
         {
             efectosActivados = true;

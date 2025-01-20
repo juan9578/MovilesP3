@@ -15,10 +15,13 @@ public class MenuSkin : MonoBehaviour
 
     public GameObject panelSkin;
     public GameObject panelLobby;
+    public GameObject textoEspera;
 
     public Slider puntosNivel;
     public TMP_Text nivel;
     public TMP_Text nombreJugador;
+
+    public Color colorBloqueo;
 
     void Start()
     {
@@ -66,7 +69,7 @@ public class MenuSkin : MonoBehaviour
             case 4:
                 if (NivelJugador.instancia.nivelActual < 5)
                 {
-                    skinActual.color = Color.gray;
+                    skinActual.color = colorBloqueo;
                     skinBloqueada = true;
                     condicionBloqueado.text = condiciones[0];
                 }
@@ -80,7 +83,7 @@ public class MenuSkin : MonoBehaviour
             case 5:
                 if (NivelJugador.instancia.nivelActual < 10)
                 {
-                    skinActual.color = Color.gray;
+                    skinActual.color = colorBloqueo;
                     skinBloqueada = true;
                     condicionBloqueado.text = condiciones[1];
                 }
@@ -94,7 +97,7 @@ public class MenuSkin : MonoBehaviour
             case 6:
                 if (NivelJugador.instancia.nivelActual < 15)
                 {
-                    skinActual.color = Color.gray;
+                    skinActual.color = colorBloqueo;
                     skinBloqueada = true;
                     condicionBloqueado.text = condiciones[2];
                 }
@@ -108,7 +111,7 @@ public class MenuSkin : MonoBehaviour
             case 7:
                 if (NivelJugador.instancia.nivelActual < 20)
                 {
-                    skinActual.color = Color.gray;
+                    skinActual.color = colorBloqueo;
                     skinBloqueada = true;
                     condicionBloqueado.text = condiciones[3];
                 }
@@ -130,18 +133,23 @@ public class MenuSkin : MonoBehaviour
     public async void ConfirmarSeleccion()
     {
         ControladorEfectosSonido.instancia.SonidoClick();
+
         if (skinBloqueada) return;
+        textoEspera.SetActive(true);
         ControladorPersonalizacion.instancia.personajeSeleccionado = indiceSkinActual;
         switch(MenuInicial.instancia.indicePantallaAnterior)
         {
             case 0:
                 await MenuInicial.instancia.BuscarPartida();
+                textoEspera.SetActive(false);
                 break;
             case 1:
                 await MenuInicial.instancia.CrearSalaPrivada();
+                textoEspera.SetActive(false);
                 break;
             case 2:
                 await MenuInicial.instancia.EntrarSalaPrivada();
+                textoEspera.SetActive(false);
                 break;
         }
     }

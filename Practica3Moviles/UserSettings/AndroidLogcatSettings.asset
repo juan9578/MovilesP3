@@ -2,8 +2,8 @@
     "m_SelectedDeviceId": "fa7db6c5",
     "m_SelectedProcess": {
         "deviceId": "fa7db6c5",
-        "name": "com.DefaultCompany.Practica3Moviles",
-        "processId": 14792,
+        "name": "com.LagarTech.FallBalls",
+        "processId": 23372,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -42,6 +42,36 @@
             "deviceId": "fa7db6c5",
             "name": "com.DefaultCompany.Practica3Moviles",
             "processId": 14792,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.DefaultCompany.Practica3Moviles",
+            "processId": 11531,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.LagarTech.FallBalls",
+            "processId": 16940,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.LagarTech.FallBalls",
+            "processId": 19253,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.LagarTech.FallBalls",
+            "processId": 19737,
+            "exited": false
+        },
+        {
+            "deviceId": "fa7db6c5",
+            "name": "com.LagarTech.FallBalls",
+            "processId": 23372,
             "exited": false
         }
     ],

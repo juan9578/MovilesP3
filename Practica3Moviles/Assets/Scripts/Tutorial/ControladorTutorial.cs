@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ControladorTutorial : MonoBehaviour
 {
-    public float velocidadBola = 0.1f;
+    public float velocidadBola = 0.5f;
     private Rigidbody _rb;
     public Vector3 direccionMovimiento;
 
@@ -18,7 +18,7 @@ public class ControladorTutorial : MonoBehaviour
         if (!MenuInicial.instancia.tutorialIniciado) return;
         // Gestión de los controles
         // En móvil
-        if (Application.platform == RuntimePlatform.Android)
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
         {
             Vector3 aceleracion = Input.acceleration;
             direccionMovimiento = new Vector3(aceleracion.x, 0, aceleracion.y);

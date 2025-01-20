@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ControladorBola : NetworkBehaviour
 {
-    public float velocidadBola = 0.1f; // Velocidad de movimiento
+    public float velocidadBola = 50f; // Velocidad de movimiento
     private Rigidbody _rb;
     public Vector3 direccionMovimiento;
 
